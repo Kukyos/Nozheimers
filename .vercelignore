@@ -1,0 +1,5 @@
+# Only the static explainer site is deployed; the Python pipeline and data stay out.
+/*
+!site
+!vercel.json
+site/template.html

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Did Evolution Protect the Alzheimer's Genes?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: one left-aligned reading column; the real five-species alignment is the hero, set like a lab printout and coloured by amino-acid chemistry. */
+:root {
+  --paper: #eef1f4;
+  --sheet: #ffffff;
+  --ink: #18222b;
+  --muted: #56636f;
+  --rule: #cfd6dd;
+  --accent: #2448c4;
+  --rodent: #d98a00;
+  --mut: #c2255c;
+  --good: #1f8a4c;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  /* ClustalX-style residue classes */
+  --aa-hyd: #c9d6fb; --aa-pos: #f8c4bf; --aa-neg: #ecc6ec; --aa-pol: #c3eccb;
+  --aa-gly: #f9dcc2; --aa-pro: #ecec9e; --aa-aro: #bfe6e6; --aa-cys: #f8d2d2;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #10161d; --sheet: #17202a; --ink: #e6ebf0; --muted: #9aa8b5; --rule: #2c3845;
+    --accent: #7d97ff; --rodent: #ffb733; --mut: #ff6b9a; --good: #4fd18a;
+    --aa-hyd: #2c3d78; --aa-pos: #6e2b27; --aa-neg: #5c2b5c; --aa-pol: #22573a;
+    --aa-gly: #6a4320; --aa-pro: #575715; --aa-aro: #1f5656; --aa-cys: #6a3434;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #10161d; --sheet: #17202a; --ink: #e6ebf0; --muted: #9aa8b5; --rule: #2c3845;
+  --accent: #7d97ff; --rodent: #ffb733; --mut: #ff6b9a; --good: #4fd18a;
+  --aa-hyd: #2c3d78; --aa-pos: #6e2b27; --aa-neg: #5c2b5c; --aa-pol: #22573a;
+  --aa-gly: #6a4320; --aa-pro: #575715; --aa-aro: #1f5656; --aa-cys: #6a3434;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--ink); font: 400 17px/1.6 var(--body); }
+main { max-width: 1080px; margin: 0 auto; padding: 48px 24px 80px; display: grid; gap: 88px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.08; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.3rem, 5.4vw, 4.1rem); font-weight: 800; letter-spacing: -0.02em; max-width: 15ch; }
+h2 { font-size: clamp(1.6rem, 3vw, 2.25rem); font-weight: 700; letter-spacing: -0.01em; }
+h3 { font-size: 1.2rem; font-weight: 700; }
+p { margin: 0; max-width: 64ch; }
+.lede { font-size: 1.18rem; color: var(--muted); max-width: 58ch; }
+section { display: grid; gap: 22px; }
+.stack { display: grid; gap: 14px; }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+.mono { font-family: var(--mono); font-size: .92em; }
+.note { font-size: .92rem; color: var(--muted); }
+
+/* ---------- hero alignment ---------- */
+.hero { gap: 28px; }
+.printout { background: var(--sheet); border: 1px solid var(--rule); border-radius: 14px; padding: 22px 22px 18px; display: grid; gap: 14px; }
+.scroller { overflow-x: auto; padding-bottom: 4px; }
+.aln { display: grid; grid-template-columns: 74px repeat(55, 17px); font-family: var(--mono); font-size: 13px; width: max-content; }
+.aln .lab { font-family: var(--body); font-size: 13px; color: var(--muted); display: flex; align-items: center; padding-right: 8px; }
+.aln .lab.human { color: var(--ink); font-weight: 700; }
+.c { height: 22px; display: grid; place-items: center; color: var(--ink); font-weight: 500; cursor: default; }
+.c.hyd { background: var(--aa-hyd); } .c.pos { background: var(--aa-pos); } .c.neg { background: var(--aa-neg); }
+.c.pol { background: var(--aa-pol); } .c.gly { background: var(--aa-gly); } .c.pro { background: var(--aa-pro); }
+.c.aro { background: var(--aa-aro); } .c.cys { background: var(--aa-cys); }
+.c.diff { box-shadow: inset 0 0 0 2px var(--rodent); font-weight: 700; }
+.c.hot { outline: 2px solid var(--ink); outline-offset: -1px; position: relative; z-index: 1; }
+.cons { height: 20px; display: grid; place-items: center; color: var(--muted); font-size: 12px; }
+.cons.x { color: var(--rodent); font-weight: 700; }
+.track { height: 26px; position: relative; font-family: var(--body); font-size: 11.5px; color: var(--muted); }
+.ab-bar { position: absolute; top: 9px; height: 8px; background: var(--accent); border-radius: 4px; opacity: .85; }
+.ab-txt { position: absolute; top: -8px; font-weight: 700; color: var(--accent); white-space: nowrap; }
+.cut { position: absolute; top: 0; bottom: -150px; width: 0; border-left: 2px dashed var(--ink); opacity: .55; pointer-events: none; }
+.cut-txt { position: absolute; top: 2px; white-space: nowrap; color: var(--ink); font-weight: 700; }
+.pins { height: 22px; }
+.pin { height: 22px; display: grid; place-items: center; }
+.pin span { width: 10px; height: 10px; border-radius: 50%; background: var(--mut); display: block; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: .88rem; color: var(--muted); align-items: center; }
+.sw { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: -2px; margin-right: 6px; }
+.readout { min-height: 3.2em; font-size: .98rem; border-top: 1px solid var(--rule); padding-top: 12px; }
+.readout b { font-family: var(--mono); }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.toggle { font: 700 .92rem var(--body); border: 1.5px solid var(--mut); color: var(--mut); background: transparent; padding: 7px 14px; border-radius: 999px; cursor: pointer; }
+.toggle[aria-pressed="true"] { background: var(--mut); color: var(--sheet); }
+.finding { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; }
+.finding p { font-size: 1rem; }
+.finding strong { display: block; font-family: var(--display); font-size: 1.05rem; margin-bottom: 4px; }
+.dot-rodent { color: var(--rodent); } .dot-mut { color: var(--mut); }
+
+/* ---------- genes ---------- */
+.genes { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; }
+.cell-svg { width: 100%; height: auto; display: block; }
+.cell-svg text { font-family: var(--body); fill: var(--ink); }
+.cell-svg .q { fill: var(--muted); }
+.genelist { display: grid; gap: 20px; }
+.gene { display: grid; gap: 6px; }
+.gene h3 { display: flex; gap: 10px; align-items: baseline; }
+.gene h3 small { font: 400 .85rem var(--body); color: var(--muted); }
+.len { height: 10px; border-radius: 5px; background: var(--accent); opacity: .8; }
+
+/* ---------- species table ---------- */
+.tablewrap { overflow-x: auto; background: var(--sheet); border: 1px solid var(--rule); border-radius: 14px; }
+table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: .95rem; }
+th, td { text-align: left; padding: 11px 16px; border-bottom: 1px solid var(--rule); }
+th { font-family: var(--display); font-weight: 700; font-size: .95rem; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr:last-child td { border-bottom: 0; }
+td .acc { display: block; font-family: var(--mono); font-size: .76rem; color: var(--muted); }
+
+/* ---------- difference map ---------- */
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tab { font: 700 1rem var(--display); padding: 8px 18px; border-radius: 999px; border: 1.5px solid var(--rule); background: var(--sheet); color: var(--ink); cursor: pointer; }
+.tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--sheet); }
+.map { background: var(--sheet); border: 1px solid var(--rule); border-radius: 14px; padding: 22px; display: grid; gap: 10px; }
+.maprow { display: grid; grid-template-columns: 70px 1fr 86px; gap: 14px; align-items: center; }
+.maprow .who { font-weight: 700; }
+.maprow .pct { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--display); font-weight: 700; font-size: 1.15rem; }
+.maprow .pct small { display: block; font: 400 .74rem var(--body); color: var(--muted); }
+.strip { width: 100%; height: 34px; display: block; }
+.strip .base { fill: var(--good); opacity: .16; }
+.strip .tick { fill: var(--ink); }
+.strip .tick.hl { fill: var(--rodent); }
+.strip .gap { fill: none; stroke: var(--mut); stroke-width: 2; }
+.strip .lm { fill: var(--accent); opacity: .18; }
+.strip .lmline { stroke: var(--accent); stroke-width: 2; }
+.strip .hit { fill: transparent; cursor: crosshair; }
+.axis { display: grid; grid-template-columns: 70px 1fr 86px; gap: 14px; font-size: .8rem; color: var(--muted); }
+.axis svg { width: 100%; height: 30px; overflow: visible; }
+.axis text { fill: var(--muted); font-family: var(--body); font-size: 11px; }
+.axis .lmtext { fill: var(--accent); font-weight: 700; }
+
+/* ---------- pipeline ---------- */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: s; }
+.step { display: grid; grid-template-columns: 52px 1fr auto; gap: 18px; padding: 20px 0; border-top: 1px solid var(--rule); align-items: start; }
+.step:last-child { border-bottom: 1px solid var(--rule); }
+.stepnum { font: 800 1.9rem/1 var(--display); color: var(--accent); }
+.step h3 { margin-bottom: 4px; }
+.step p { font-size: .98rem; color: var(--muted); }
+.step .tool { font-size: .86rem; color: var(--ink); margin-top: 6px; }
+.chip { font: 700 .8rem var(--body); padding: 4px 11px; border-radius: 999px; white-space: nowrap; border: 1.5px solid currentColor; }
+.chip.done { color: var(--good); }
+.chip.run { color: var(--rodent); }
+.chip.wait { color: var(--muted); }
+.chip.run::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: currentColor; margin-right: 6px; vertical-align: 1px; animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .25; } }
+
+/* ---------- limits ---------- */
+.limits { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px 32px; }
+.limits div { border-left: 3px solid var(--mut); padding-left: 14px; }
+.limits h3 { font-size: 1.02rem; margin-bottom: 4px; }
+.limits p { font-size: .95rem; color: var(--muted); }
+
+footer { border-top: 1px solid var(--rule); padding-top: 24px; display: grid; gap: 10px; font-size: .88rem; color: var(--muted); }
+footer p { max-width: 90ch; }
+
+@media (max-width: 820px) {
+  .genes { grid-template-columns: 1fr; }
+  main { gap: 64px; padding-top: 32px; }
+}
+@media (max-width: 520px) {
+  .maprow, .axis { grid-template-columns: 52px 1fr 64px; gap: 8px; }
+  .step { grid-template-columns: 36px 1fr; }
+  .step .chip { grid-column: 2; justify-self: start; }
+  .printout, .map { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .chip.run::before { animation: none; } }
+</style>
+</head>
+<body>
+<main>
+
+<section class="hero" aria-labelledby="t">
+  <div class="stack">
+    <h1 id="t">Did evolution protect the Alzheimer's genes?</h1>
+    <p class="lede">Three genes, APP, PSEN1 and PSEN2, cause rare inherited early-onset Alzheimer's disease. This project compares them across five mammals to see which parts never changed, and whether known disease mutations hit those parts.</p>
+  </div>
+
+  <div class="printout">
+    <div class="stack" style="gap:4px">
+      <h3>The amyloid-beta stretch of APP, in five species</h3>
+      <p class="note">Positions 666 to 720 of the 770-letter APP protein, from the downloaded NCBI sequences. Each letter is one amino acid, coloured by its chemistry. Hover or tap a column.</p>
+    </div>
+    <div class="scroller">
+      <div class="aln" id="aln" role="grid" aria-label="Alignment of APP positions 666 to 720 in human, mouse, rat, dog and cattle"></div>
+    </div>
+    <div class="controls">
+      <button class="toggle" id="mutBtn" aria-pressed="true" type="button">Known human mutations shown</button>
+      <div class="legend">
+        <span><span class="sw" style="background:var(--aa-hyd)"></span>water-avoiding</span>
+        <span><span class="sw" style="background:var(--aa-pos)"></span>positive</span>
+        <span><span class="sw" style="background:var(--aa-neg)"></span>negative</span>
+        <span><span class="sw" style="background:var(--aa-pol)"></span>polar</span>
+        <span><span class="sw" style="background:var(--aa-gly)"></span>glycine</span>
+        <span><span class="sw" style="background:var(--aa-aro)"></span>ring-shaped</span>
+        <span><span class="sw" style="background:transparent;box-shadow:inset 0 0 0 2px var(--rodent)"></span>differs from human</span>
+      </div>
+    </div>
+    <div class="readout" id="readout" aria-live="polite">Hover a column to compare the five species at that position.</div>
+  </div>
+
+  <div class="finding">
+    <p><strong>Dog and cattle match human letter for letter.</strong>All 55 positions in this window are identical.</p>
+    <p><strong class="dot-rodent">Mouse and rat differ at exactly 3.</strong>Positions 676, 681 and 684 sit inside amyloid-beta itself. Published research links these to why ordinary mice do not form human-style plaques.</p>
+    <p><strong class="dot-mut">Every famous mutation site is conserved.</strong>The six marked positions are the same letter in all five species. Final ClinVar mapping comes from the pipeline.</p>
+  </div>
+</section>
+
+<section aria-labelledby="g">
+  <h2 id="g">Three genes, one job: making amyloid-beta</h2>
+  <div class="genes">
+    <svg class="cell-svg" viewBox="0 0 460 330" role="img" aria-label="APP crosses the cell membrane and is cut twice; the second cut is made by presenilin">
+      <rect x="0" y="140" width="460" height="64" rx="6" fill="var(--aa-gly)" opacity=".55"/>
+      <text x="12" y="132" class="q" font-size="13">outside the cell</text>
+      <text x="12" y="226" class="q" font-size="13">inside the cell</text>
+      <text x="448" y="177" class="q" font-size="13" text-anchor="end">membrane</text>
+      <path d="M170 30 C 150 60, 210 80, 210 110 L210 240 C 210 270, 180 280, 190 310" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+      <path d="M210 112 L210 188" stroke="var(--accent)" stroke-width="9" stroke-linecap="round"/>
+      <text x="226" y="96" font-size="13" font-weight="700" fill="var(--accent)">amyloid-beta piece</text>
+      <text x="120" y="24" font-size="14" font-weight="700">APP</text>
+      <g transform="translate(232 112)"><circle r="13" fill="var(--sheet)" stroke="var(--ink)" stroke-width="1.5"/><text y="5" text-anchor="middle" font-size="14">✂</text></g>
+      <text x="252" y="117" font-size="12.5">cut 1: beta-secretase</text>
+      <rect x="118" y="160" width="72" height="34" rx="17" fill="var(--mut)" opacity=".85"/>
+      <text x="154" y="182" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--sheet)">PSEN1/2</text>
+      <g transform="translate(232 188)"><circle r="13" fill="var(--sheet)" stroke="var(--ink)" stroke-width="1.5"/><text y="5" text-anchor="middle" font-size="14">✂</text></g>
+      <text x="252" y="193" font-size="12.5">cut 2: gamma-secretase</text>
+      <text x="236" y="262" font-size="12.5" class="q">Presenilin is the blade of</text>
+      <text x="236" y="280" font-size="12.5" class="q">gamma-secretase, which makes</text>
+      <text x="236" y="298" font-size="12.5" class="q">the second cut inside the membrane.</text>
+    </svg>
+    <div class="genelist">
+      <div class="gene">
+        <h3>APP <small>770 amino acids</small></h3>
+        <div class="len" style="width:100%"></div>
+        <p>The precursor protein. Two cuts release amyloid-beta, the sticky piece that builds up as plaques in Alzheimer's brains.</p>
+      </div>
+      <div class="gene">
+        <h3>PSEN1 <small>467 amino acids</small></h3>
+        <div class="len" style="width:60.6%"></div>
+        <p>Presenilin-1, the cutting core of gamma-secretase. Its two key aspartates, positions 257 and 385, do the cutting.</p>
+      </div>
+      <div class="gene">
+        <h3>PSEN2 <small>448 amino acids</small></h3>
+        <div class="len" style="width:58.2%"></div>
+        <p>Presenilin-2, a close sibling of PSEN1 with the same job. Its key aspartates sit at 263 and 366.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="m">
+  <div class="stack">
+    <h2 id="m">Where each species differs from human</h2>
+    <p>Each strip is the full human protein, left to right. Every dark tick is a position where that species has a different amino acid. Hover a tick to see the swap.</p>
+  </div>
+  <div class="tabs" role="tablist" aria-label="Gene">
+    <button class="tab" role="tab" id="tab-APP" aria-selected="true" type="button">APP</button>
+    <button class="tab" role="tab" id="tab-PSEN1" aria-selected="false" type="button">PSEN1</button>
+    <button class="tab" role="tab" id="tab-PSEN2" aria-selected="false" type="button">PSEN2</button>
+  </div>
+  <div class="map" id="map" role="tabpanel" aria-live="polite"></div>
+  <p class="note">Preview computed from pairwise alignments to human (BLOSUM62, gap open −11, extend −1); for APP it matches NCBI BLAST exactly. % identity counts identical letters over positions both proteins have. The report's final numbers come from the five-way Clustal Omega alignment and may shift slightly.</p>
+</section>
+
+<section aria-labelledby="s">
+  <div class="stack">
+    <h2 id="s">The sequences used</h2>
+    <p>One protein per gene per species, picked from 126 candidate protein records by how well each aligns to human. Every pick has an exact NCBI accession and download date.</p>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Species</th><th class="num">APP</th><th class="num">PSEN1</th><th class="num">PSEN2</th></tr></thead>
+      <tbody id="spRows"></tbody>
+    </table>
+  </div>
+  <p class="note">Lengths in amino acids. Cattle APP is a predicted (XP_) record and is flagged in the methods log.</p>
+</section>
+
+<section aria-labelledby="p">
+  <div class="stack">
+    <h2 id="p">How the analysis runs</h2>
+    <p>One Python pipeline does every step and saves every intermediate file, so anyone can re-run it and get the same result. Status as of 3 November 2026.</p>
+  </div>
+  <ol class="steps">
+    <li class="step"><span class="stepnum">1</span><div><h3>Download the sequences</h3><p>Human reference proteins for APP, PSEN1 and PSEN2, plus the matching protein in mouse, rat, dog and cattle.</p><p class="tool">NCBI Gene, RefSeq</p></div><span class="chip done">Done</span></li>
+    <li class="step"><span class="stepnum">2</span><div><h3>Check them</h3><p>Validate every file, then BLAST each human protein to confirm the picks are the true matching gene and not a look-alike relative.</p><p class="tool">NCBI BLASTp</p></div><span class="chip run">APP done, PSEN running</span></li>
+    <li class="step"><span class="stepnum">3</span><div><h3>Line them up</h3><p>Align the five species letter by letter, separately for each gene.</p><p class="tool">Clustal Omega (EMBL-EBI)</p></div><span class="chip wait">Queued</span></li>
+    <li class="step"><span class="stepnum">4</span><div><h3>Measure similarity and build trees</h3><p>Percent identity to human, conservation at every position, and a family tree per gene with 1000 bootstrap checks.</p><p class="tool">Biopython</p></div><span class="chip wait">Queued</span></li>
+    <li class="step"><span class="stepnum">5</span><div><h3>Map known mutations</h3><p>Pull curated pathogenic Alzheimer's mutations from ClinVar and check whether each lands on a conserved position.</p><p class="tool">ClinVar, UniProt, AlphaFold DB</p></div><span class="chip wait">Queued</span></li>
+    <li class="step"><span class="stepnum">6</span><div><h3>Figures and report</h3><p>Four figures, five tables and a Word report, with every number read from the computed files.</p><p class="tool">matplotlib, python-docx</p></div><span class="chip wait">Queued</span></li>
+  </ol>
+</section>
+
+<section aria-labelledby="l">
+  <h2 id="l">What this can and can't tell you</h2>
+  <div class="limits">
+    <div><h3>Conserved is not the same as harmful</h3><p>A mutation on a conserved letter is one clue. Whether it causes disease is decided by clinical evidence.</p></div>
+    <div><h3>Not a diagnosis</h3><p>This compares database sequences. It cannot predict anyone's personal risk.</p></div>
+    <div><h3>Five species only</h3><p>A small, fixed set chosen in advance. More species would sharpen the picture.</p></div>
+    <div><h3>Databases change</h3><p>ClinVar classifications get updated, so every record is pinned to its version and access date.</p></div>
+  </div>
+</section>
+
+<footer>
+  <p>Data: NCBI RefSeq proteins, accessed 29 October 2026; human references <span class="mono">NP_000475.1</span> (APP), <span class="mono">NP_000012.1</span> (PSEN1), <span class="mono">NP_000438.2</span> (PSEN2). Mutation names on the APP alignment are well-known published examples; the project's own ClinVar mapping is pending. Sources: <a href="https://www.ncbi.nlm.nih.gov/gene/351">NCBI Gene APP</a>, <a href="https://www.ncbi.nlm.nih.gov/gene/5663">PSEN1</a>, <a href="https://www.ncbi.nlm.nih.gov/gene/5664">PSEN2</a>, <a href="https://www.ncbi.nlm.nih.gov/clinvar/">ClinVar</a>.</p>
+  <p>Scripts and this page were built with help from an AI assistant (Claude). All sequences come from live databases and are traceable by accession.</p>
+</footer>
+</main>
+
+<script>
+const DATA = {"APP":{"len":770,"acc":"NP_000475.1","species":{"cattle":{"acc":"XP_005201194.1","len":770,"identity":97.4,"diffs":[[4,"G","A"],[8,"L","V"],[34,"I","V"],[40,"R","K"],[53,"D","E"],[64,"D","G"],[109,"P","A"],[111,"F","M"],[226,"V","I"],[236,"E","D"],[245,"D","E"],[252,"D","E"],[254,"V","L"],[344,"A","V"],[347,"Q","H"],[358,"A","P"],[359,"R","Q"],[580,"M","I"],[623,"S","P"],[626,"A","V"]],"gaps_vs_human":[],"extra":0},"dog":{"acc":"NP_001006601.2","len":770,"identity":96.9,"diffs":[[4,"G","A"],[8,"L","V"],[12,"A","S"],[34,"I","V"],[37,"F","L"],[40,"R","K"],[42,"N","R"],[53,"D","E"],[57,"S","L"],[64,"D","G"],[65,"T","S"],[68,"G","D"],[100,"R","K"],[109,"P","A"],[111,"F","I"],[196,"V","I"],[236,"E","D"],[243,"D","E"],[344,"A","V"],[358,"A","P"],[359,"R","Q"],[361,"P","A"],[623,"S","P"],[626,"A","V"]],"gaps_vs_human":[],"extra":0},"mouse":{"acc":"NP_001185752.1","len":770,"identity":96.6,"diffs":[[4,"G","S"],[15,"A","V"],[40,"R","K"],[53,"D","E"],[64,"D","G"],[109,"P","T"],[111,"F","I"],[195,"N","S"],[221,"S","G"],[236,"E","D"],[248,"D","V"],[272,"I","T"],[317,"A","V"],[344,"A","V"],[345,"M","S"],[346,"S","T"],[354,"Q","S"],[358,"A","P"],[359,"R","Q"],[362,"V","D"],[488,"R","H"],[623,"S","P"],[626,"A","V"],[676,"R","G"],[681,"Y","F"],[684,"H","R"]],"gaps_vs_human":[],"extra":0},"rat":{"acc":"NP_062161.1","len":770,"identity":96.9,"diffs":[[4,"G","S"],[15,"A","V"],[40,"R","K"],[53,"D","E"],[64,"D","G"],[109,"P","T"],[111,"F","I"],[195,"N","S"],[196,"V","I"],[221,"S","G"],[236,"E","D"],[243,"D","E"],[248,"D","V"],[344,"A","V"],[345,"M","S"],[354,"Q","S"],[358,"A","P"],[359,"R","Q"],[488,"R","H"],[623,"S","P"],[626,"A","V"],[676,"R","G"],[681,"Y","F"],[684,"H","R"]],"gaps_vs_human":[],"extra":0}}},"PSEN1":{"len":467,"acc":"NP_000012.1","species":{"cattle":{"acc":"NP_777146.1","len":478,"identity":91.9,"diffs":[[32,"N","S"],[36,"Q","H"],[40,"D","E"],[43,"S","R"],[44,"L","R"],[46,"H","N"],[47,"P","T"],[49,"P","S"],[50,"L","V"],[55,"P","A"],[56,"Q","P"],[57,"G","S"],[58,"N","S"],[60,"R","Q"],[66,"D","E"],[126,"G","A"],[137,"A","V"],[145,"V","I"],[168,"I","V"],[193,"V","M"],[197,"T","S"],[212,"S","A"],[308,"R","K"],[314,"K","N"],[318,"E","Q"],[319,"S","G"],[322,"R","S"],[327,"T","P"],[329,"A","T"],[331,"N","S"],[347,"H","R"],[352,"R","H"],[355,"P","A"],[359,"A","S"],[363,"E","D"],[371,"G","S"],[437,"I","V"],[444,"V","I"]],"gaps_vs_human":[],"extra":11},"dog":{"acc":"NP_001002943.2","len":466,"identity":94.2,"diffs":[[32,"N","S"],[37,"E","H"],[38,"H","S"],[39,"N","S"],[40,"D","E"],[43,"S","R"],[44,"L","R"],[46,"H","N"],[58,"N","S"],[60,"R","H"],[67,"E","D"],[193,"V","M"],[212,"S","A"],[308,"R","K"],[314,"K","N"],[318,"E","Q"],[322,"R","S"],[324,"S","T"],[327,"T","P"],[329,"A","T"],[331,"N","S"],[347,"H","R"],[352,"R","H"],[355,"P","T"],[357,"S","T"],[367,"S","N"],[371,"G","S"]],"gaps_vs_human":[35],"extra":0},"mouse":{"acc":"NP_001349200.1","len":467,"identity":92.7,"diffs":[[4,"L","I"],[20,"N","S"],[22,"L","S"],[24,"N","S"],[25,"T","A"],[26,"V","I"],[32,"N","S"],[33,"R","Q"],[37,"E","Q"],[38,"H","Q"],[39,"N","H"],[42,"R","Q"],[43,"S","R"],[45,"G","D"],[46,"H","N"],[50,"L","I"],[57,"G","S"],[145,"V","I"],[196,"I","V"],[212,"S","A"],[310,"S","P"],[313,"S","P"],[317,"A","T"],[318,"E","Q"],[319,"S","R"],[320,"T","A"],[324,"S","T"],[327,"T","S"],[328,"V","G"],[329,"A","S"],[330,"E","G"],[366,"S","G"],[370,"A","T"],[371,"G","S"]],"gaps_vs_human":[],"extra":0},"rat":{"acc":"NP_062036.2","len":468,"identity":92.9,"diffs":[[4,"L","I"],[20,"N","S"],[24,"N","S"],[25,"T","S"],[33,"R","Q"],[37,"E","Q"],[39,"N","H"],[42,"R","Q"],[43,"S","R"],[45,"G","D"],[46,"H","N"],[49,"P","S"],[50,"L","I"],[57,"G","S"],[59,"S","T"],[63,"V","I"],[168,"I","V"],[212,"S","A"],[310,"S","P"],[313,"S","P"],[316,"N","S"],[317,"A","T"],[318,"E","Q"],[319,"S","G"],[324,"S","T"],[328,"V","G"],[329,"A","T"],[330,"E","G"],[331,"N","S"],[366,"S","G"],[370,"A","T"],[371,"G","S"],[444,"V","I"]],"gaps_vs_human":[22],"extra":2}}},"PSEN2":{"len":448,"acc":"NP_000438.2","species":{"cattle":{"acc":"NP_776865.2","len":449,"identity":97.5,"diffs":[[33,"E","D"],[38,"P","L"],[43,"N","S"],[44,"T","A"],[52,"N","S"],[56,"G","E"],[125,"T","S"],[151,"V","T"],[205,"L","F"],[338,"E","D"],[345,"T","P"]],"gaps_vs_human":[],"extra":1},"dog":{"acc":"NP_001271394.1","len":448,"identity":95.8,"diffs":[[27,"T","P"],[30,"S","C"],[34,"G","A"],[38,"P","L"],[44,"T","A"],[51,"E","D"],[52,"N","S"],[56,"G","F"],[58,"E","D"],[60,"P","A"],[62,"R","H"],[66,"S","G"],[71,"R","Q"],[73,"P","S"],[151,"V","A"],[205,"L","F"],[332,"G","R"],[345,"T","P"],[350,"E","D"]],"gaps_vs_human":[],"extra":0},"mouse":{"acc":"NP_001122077.1","len":448,"identity":96.0,"diffs":[[3,"T","A"],[28,"P","S"],[36,"Q","P"],[43,"N","S"],[49,"S","T"],[52,"N","S"],[56,"G","C"],[64,"V","A"],[68,"V","A"],[73,"P","S"],[205,"L","F"],[207,"T","A"],[234,"M","V"],[339,"V","A"],[342,"P","A"],[345,"T","P"],[382,"S","N"],[393,"V","I"]],"gaps_vs_human":[],"extra":0},"rat":{"acc":"NP_112349.2","len":448,"identity":95.3,"diffs":[[28,"P","S"],[33,"E","D"],[34,"G","S"],[36,"Q","P"],[54,"E","D"],[56,"G","C"],[62,"R","H"],[64,"V","A"],[73,"P","S"],[192,"L","F"],[205,"L","F"],[207,"T","A"],[234,"M","V"],[339,"V","A"],[342,"P","A"],[344,"L","Q"],[345,"T","P"],[352,"L","P"],[382,"S","N"],[386,"N","S"],[393,"V","I"]],"gaps_vs_human":[],"extra":0}}}};
+const START = 666;
+const ROWS = [
+  ['Human', 'ISEVKMDAEFRHDSGYEVHHQKLVFFAEDVGSNKGAIIGLMVGGVVIATVIVITL'],
+  ['Mouse', 'ISEVKMDAEFGHDSGFEVRHQKLVFFAEDVGSNKGAIIGLMVGGVVIATVIVITL'],
+  ['Rat',   'ISEVKMDAEFGHDSGFEVRHQKLVFFAEDVGSNKGAIIGLMVGGVVIATVIVITL'],
+  ['Dog',   'ISEVKMDAEFRHDSGYEVHHQKLVFFAEDVGSNKGAIIGLMVGGVVIATVIVITL'],
+  ['Cattle','ISEVKMDAEFRHDSGYEVHHQKLVFFAEDVGSNKGAIIGLMVGGVVIATVIVITL']
+];
+const MUTS = { 670: 'Swedish mutation (K670N, paired with M671L)', 671: 'Swedish mutation (M671L, paired with K670N)', 692: 'Flemish mutation (A692G)', 693: 'Arctic (E693G) and Dutch (E693Q) mutations', 694: 'Iowa mutation (D694N)', 717: 'London mutation (V717I)' };
+const NAMES = { A:'alanine',R:'arginine',N:'asparagine',D:'aspartate',C:'cysteine',E:'glutamate',Q:'glutamine',G:'glycine',H:'histidine',I:'isoleucine',L:'leucine',K:'lysine',M:'methionine',F:'phenylalanine',P:'proline',S:'serine',T:'threonine',W:'tryptophan',Y:'tyrosine',V:'valine' };
+const cls = a => 'AILMFWV'.includes(a) ? 'hyd' : 'KR'.includes(a) ? 'pos' : 'DE'.includes(a) ? 'neg' : 'NQST'.includes(a) ? 'pol' : a === 'G' ? 'gly' : a === 'P' ? 'pro' : 'HY'.includes(a) ? 'aro' : 'cys';
+const COL = 17, LAB = 74, x = p => LAB + (p - START) * COL;
+
+const aln = document.getElementById('aln'), readout = document.getElementById('readout');
+let showMut = true;
+function el(tag, cls, txt) { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+
+function buildAlignment() {
+  aln.innerHTML = '';
+  // track row: amyloid-beta bar and cut lines
+  const track = el('div', 'track'); track.style.gridColumn = '1 / -1'; track.style.height = '56px';
+  const c1 = el('div', 'cut-txt', 'cut 1 (beta-secretase)'); c1.style.left = x(672) - 6 + 'px'; c1.style.transform = 'translateX(-100%)'; track.append(c1);
+  const c2 = el('div', 'cut-txt', 'cut 2 (gamma-secretase)'); c2.style.left = x(712) - 6 + 'px'; c2.style.transform = 'translateX(-100%)'; track.append(c2);
+  const t = el('div', 'ab-txt', 'amyloid-beta, letters 672 to 713'); t.style.left = x(672) + 4 + 'px'; t.style.top = '22px'; track.append(t);
+  const bar = el('div', 'ab-bar'); bar.style.left = x(672) + 'px'; bar.style.width = (713 - 672 + 1) * COL + 'px'; bar.style.top = '42px'; track.append(bar);
+  aln.append(track);
+  const cuts = [[672], [712], [714]];
+  ROWS.forEach(([name, seq], r) => {
+    aln.append(el('div', 'lab' + (r === 0 ? ' human' : ''), name));
+    [...seq].forEach((a, i) => {
+      const p = START + i, c = el('div', 'c ' + cls(a), a);
+      if (a !== ROWS[0][1][i]) c.classList.add('diff');
+      c.dataset.p = p; c.tabIndex = r === 0 ? 0 : -1; c.setAttribute('role', 'gridcell');
+      aln.append(c);
+    });
+  });
+  aln.append(el('div', 'lab', 'match'));
+  for (let i = 0; i < 55; i++) {
+    const same = ROWS.every(rw => rw[1][i] === ROWS[0][1][i]);
+    const c = el('div', 'cons' + (same ? '' : ' x'), same ? '*' : '•'); c.dataset.p = START + i; aln.append(c);
+  }
+  aln.append(el('div', 'lab', showMut ? 'mutation' : ''));
+  for (let i = 0; i < 55; i++) {
+    const p = START + i, d = el('div', 'pin'); d.dataset.p = p;
+    if (showMut && MUTS[p]) d.append(el('span'));
+    aln.append(d);
+  }
+  // cut markers on top of everything
+  aln.style.position = 'relative';
+  cuts.forEach(([p, label]) => {
+    const c = el('div', 'cut'); c.style.left = x(p) - 1 + 'px'; c.style.top = '20px'; c.style.bottom = '22px'; aln.append(c);
+  });
+}
+
+function show(p) {
+  const i = p - START; if (i < 0 || i > 54) return;
+  aln.querySelectorAll('.hot').forEach(e => e.classList.remove('hot'));
+  aln.querySelectorAll(`.c[data-p="${p}"]`).forEach(e => e.classList.add('hot'));
+  const letters = ROWS.map(([n, s]) => `${n} <b>${s[i]}</b>`).join(', ');
+  const h = ROWS[0][1][i];
+  const odd = ROWS.filter(rw => rw[1][i] !== h).map(rw => rw[0]);
+  let msg = `<b>Position ${p}</b> (${NAMES[h]} in human): ${letters}. `;
+  msg += odd.length ? `<span class="dot-rodent">${odd.join(' and ')} differ here.</span>` : 'Identical in all five species.';
+  if (p >= 672 && p <= 713) msg += ` Inside amyloid-beta, letter ${p - 671}.`;
+  if (showMut && MUTS[p]) msg += ` <span class="dot-mut">Known human site: ${MUTS[p]}.</span>`;
+  readout.innerHTML = msg;
+}
+aln.addEventListener('mouseover', e => { const p = e.target.closest('[data-p]'); if (p) show(+p.dataset.p); });
+aln.addEventListener('click', e => { const p = e.target.closest('[data-p]'); if (p) show(+p.dataset.p); });
+aln.addEventListener('focusin', e => { const p = e.target.closest('[data-p]'); if (p) show(+p.dataset.p); });
+aln.addEventListener('keydown', e => {
+  const p = e.target.closest('.c'); if (!p) return;
+  const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (!d) return;
+  const n = aln.querySelector(`.c[data-p="${+p.dataset.p + d}"]`); if (n) { e.preventDefault(); n.tabIndex = 0; n.focus(); }
+});
+document.getElementById('mutBtn').addEventListener('click', e => {
+  showMut = !showMut; e.currentTarget.setAttribute('aria-pressed', showMut);
+  e.currentTarget.textContent = showMut ? 'Known human mutations shown' : 'Show known human mutations';
+  buildAlignment();
+});
+buildAlignment(); show(676);
+
+// ---------- difference map ----------
+const SPECIES = ['mouse', 'rat', 'dog', 'cattle'];
+const LANDMARKS = { APP: [[672, 713, 'amyloid-beta']], PSEN1: [[257, 257, 'D257'], [385, 385, 'D385']], PSEN2: [[263, 263, 'D263'], [366, 366, 'D366']] };
+const map = document.getElementById('map');
+const ns = 'http://www.w3.org/2000/svg';
+function svg(tag, attrs) { const e = document.createElementNS(ns, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; }
+let mapReadout;
+
+function drawMap(gene) {
+  const g = DATA[gene], L = g.len, W = 1000, X = p => (p - 0.5) / L * W;
+  map.innerHTML = '';
+  // axis with landmarks
+  const axis = el('div', 'axis'); axis.append(el('div'));
+  const ax = svg('svg', { viewBox: `0 0 ${W} 30`, preserveAspectRatio: 'none', 'aria-hidden': 'true' });
+  const step = L > 600 ? 100 : 50;
+  for (let p = 0; p <= L; p += step) { const t = svg('text', { x: X(p || 1), y: 26, 'text-anchor': p === 0 ? 'start' : 'middle' }); t.textContent = p || 1; ax.append(t); }
+  LANDMARKS[gene].forEach(([a, b, name]) => { const t = svg('text', { x: X((a + b) / 2), y: 11, 'text-anchor': 'middle', class: 'lmtext' }); t.textContent = name; ax.append(t); });
+  const ax2 = el('div'); ax2.append(ax); axis.append(ax2); axis.append(el('div'));
+  map.append(axis);
+  SPECIES.forEach(sp => {
+    const s = g.species[sp]; if (!s) return;
+    const row = el('div', 'maprow');
+    row.append(el('div', 'who', sp[0].toUpperCase() + sp.slice(1)));
+    const st = svg('svg', { class: 'strip', viewBox: `0 0 ${W} 34`, preserveAspectRatio: 'none', role: 'img', 'aria-label': `${sp}: ${s.diffs.length} differing positions out of ${L}` });
+    st.append(svg('rect', { class: 'base', x: 0, y: 4, width: W, height: 26, rx: 4 }));
+    LANDMARKS[gene].forEach(([a, b]) => {
+      if (a === b) st.append(svg('rect', { class: 'lm', x: X(a) - 3, y: 0, width: 6, height: 34 }));
+      else st.append(svg('rect', { class: 'lm', x: X(a), y: 0, width: X(b + 1) - X(a), height: 34 }));
+    });
+    s.diffs.forEach(([p, h, o]) => {
+      const inLm = LANDMARKS[gene].some(([a, b]) => p >= a && p <= b);
+      st.append(svg('rect', { class: 'tick' + (inLm ? ' hl' : ''), x: X(p) - 1.6, y: 6, width: 3.2, height: 22 }));
+    });
+    s.gaps_vs_human.forEach(p => st.append(svg('rect', { class: 'gap', x: X(p) - 3, y: 6, width: 6, height: 22 })));
+    // invisible hit areas, wider for touch
+    s.diffs.forEach(([p, h, o]) => {
+      const r = svg('rect', { class: 'hit', x: X(p) - 6, y: 0, width: 12, height: 34 });
+      r.addEventListener('mouseenter', () => mapReadout.innerHTML = `<b>${sp[0].toUpperCase() + sp.slice(1)}, position ${p}:</b> human ${NAMES[h]} (<span class="mono">${h}</span>) becomes ${NAMES[o] || o} (<span class="mono">${o}</span>).`);
+      st.append(r);
+    });
+    const wrap = el('div'); wrap.append(st); row.append(wrap);
+    const pct = el('div', 'pct', s.identity.toFixed(1) + '%');
+    pct.append(el('small', null, `${s.diffs.length} swaps`));
+    row.append(pct);
+    map.append(row);
+  });
+  mapReadout = el('div', 'readout');
+  const notes = { APP: 'The amyloid-beta band is almost untouched: only the three rodent swaps land inside it.', PSEN1: 'Swaps cluster at the very start and in a middle stretch. The two cutting aspartates, D257 and D385, are the same in every species. Cattle PSEN1 has 11 extra letters not in human.', PSEN2: 'The two cutting aspartates, D263 and D366, are the same in every species. Cattle PSEN2 is the closest match to human.' };
+  mapReadout.textContent = notes[gene];
+  map.append(mapReadout);
+}
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(o => o.setAttribute('aria-selected', o === t));
+  drawMap(t.id.slice(4));
+}));
+drawMap('APP');
+
+// ---------- species table ----------
+const spRows = document.getElementById('spRows');
+const human = { APP: ['NP_000475.1', 770], PSEN1: ['NP_000012.1', 467], PSEN2: ['NP_000438.2', 448] };
+const cell = (len, acc) => `<td class="num">${len}<span class="acc">${acc}</span></td>`;
+spRows.innerHTML = `<tr><td><b>Human</b> <span class="note">Homo sapiens</span></td>${['APP', 'PSEN1', 'PSEN2'].map(g => cell(human[g][1], human[g][0])).join('')}</tr>` +
+  [['mouse', 'Mus musculus'], ['rat', 'Rattus norvegicus'], ['dog', 'Canis lupus familiaris'], ['cattle', 'Bos taurus']].map(([sp, latin]) =>
+    `<tr><td><b>${sp[0].toUpperCase() + sp.slice(1)}</b> <span class="note"><i>${latin}</i></span></td>${['APP', 'PSEN1', 'PSEN2'].map(g => cell(DATA[g].species[sp].len, DATA[g].species[sp].acc)).join('')}</tr>`).join('');
+</script>
+</body>
+</html>
