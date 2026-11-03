@@ -1,0 +1,13 @@
+gene,species,accession,human_length,species_length,aligned_columns,shared_residue_columns,identical,pct_identity,pct_coverage_of_human,gap_columns,method
+APP,Mus musculus,NP_001185752.1,770,770,770,770,744,96.62,100.0,0,Clustal Omega MSA; identical / columns where both have a residue
+APP,Rattus norvegicus,NP_062161.1,770,770,770,770,746,96.88,100.0,0,Clustal Omega MSA; identical / columns where both have a residue
+APP,Canis lupus familiaris,NP_001006601.2,770,770,770,770,746,96.88,100.0,0,Clustal Omega MSA; identical / columns where both have a residue
+APP,Bos taurus,XP_005201194.1,770,770,770,770,750,97.4,100.0,0,Clustal Omega MSA; identical / columns where both have a residue
+PSEN1,Mus musculus,NP_001349200.1,467,467,479,463,430,92.87,99.14,8,Clustal Omega MSA; identical / columns where both have a residue
+PSEN1,Rattus norvegicus,NP_062036.2,467,468,479,463,429,92.66,99.14,9,Clustal Omega MSA; identical / columns where both have a residue
+PSEN1,Canis lupus familiaris,NP_001002943.2,467,466,479,466,438,93.99,99.79,1,Clustal Omega MSA; identical / columns where both have a residue
+PSEN1,Bos taurus,NP_777146.1,467,478,479,467,428,91.65,100.0,11,Clustal Omega MSA; identical / columns where both have a residue
+PSEN2,Mus musculus,NP_001122077.1,448,448,449,448,430,95.98,100.0,0,Clustal Omega MSA; identical / columns where both have a residue
+PSEN2,Rattus norvegicus,NP_112349.2,448,448,449,448,427,95.31,100.0,0,Clustal Omega MSA; identical / columns where both have a residue
+PSEN2,Canis lupus familiaris,NP_001271394.1,448,448,449,448,429,95.76,100.0,0,Clustal Omega MSA; identical / columns where both have a residue
+PSEN2,Bos taurus,NP_776865.2,448,449,449,448,437,97.54,100.0,1,Clustal Omega MSA; identical / columns where both have a residue

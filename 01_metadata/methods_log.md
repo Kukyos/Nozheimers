@@ -1,6 +1,6 @@
 # Methods and decision log
 
-Run started 2026-11-03 19:39. Rules are fixed here before any retrieval; later entries record what was done.
+Run started 2026-11-03 20:04. Rules are fixed here before any retrieval; later entries record what was done.
 
 ## Predefined rules
 - Genes: APP (Gene ID 351), PSEN1 (5663), PSEN2 (5664), each analysed separately. APOE not included (optional extension in the guide).
@@ -30,5 +30,36 @@ Run started 2026-11-03 19:39. Rules are fixed here before any retrieval; later e
 - PSEN2: Canis lupus familiaris ortholog PSEN2 (Gene ID 490382) has 5 RefSeq proteins; selected NP_001271394.1 (448 aa, score 2230; best candidate score 2238).
 - PSEN2: Bos taurus ortholog PSEN2 (Gene ID 282010) has 8 RefSeq proteins; selected NP_776865.2 (449 aa, score 2268; best candidate score 2268).
 - FASTA validation passed: amino-acid alphabet only, no duplicate accessions, lengths within 0.5-2x of human, one sequence type (protein) per analysis set, headers carry accession and [species]. No cleaned copies were needed, so 02_raw_sequences/cleaned/ is not used.
+- PSEN1: resuming BLASTp RID EKUTD9NR016.
+- PSEN2: BLASTp submitted, RID EKW7BYV4016.
 - APP: BLASTp (BLASTP 2.17.0+, db refseq_protein) top hit per species checked against the ortholog gene (paralog check). Raw output APP_blastp_NP_000475.1_refseq_protein.json accessed 2026-10-29.
-- PSEN1: BLASTp submitted, RID EKUTD9NR016.
+- PSEN1: BLASTp not finished at NCBI yet; paralog check pending. Re-run pipeline.py later to fill it in.
+- PSEN2: BLASTp not finished at NCBI yet; paralog check pending. Re-run pipeline.py later to fill it in.
+- APP: Clustal Omega job clustalo-R20261103-144507-0446-92549864-p2m finished.
+- APP: alignment of 5 proteins, 770 columns, longest gap run 0 (CLUSTAL O(1.2.4), accessed 2026-11-03).
+- PSEN1: Clustal Omega job clustalo-R20261103-144633-0993-3944698-p2m finished.
+- PSEN1: alignment of 5 proteins, 479 columns, longest gap run 10 (CLUSTAL O(1.2.4), accessed 2026-11-03).
+- PSEN2: Clustal Omega job clustalo-R20261103-144703-0130-33514495-p2m finished.
+- PSEN2: alignment of 5 proteins, 449 columns, longest gap run 1 (CLUSTAL O(1.2.4), accessed 2026-11-03).
+- APP: 94.3% of human residues identical in all 5 species.
+- PSEN1: 85.4% of human residues identical in all 5 species.
+- PSEN2: 91.1% of human residues identical in all 5 species.
+- APP: NJ tree built; bootstrap support for internal splits: {Mouse, Rat} 100%; {Cattle, Dog} 81%; {Dog, Mouse, Rat} 19%; {Dog, Rat} 0%.
+- PSEN1: NJ tree built; bootstrap support for internal splits: {Mouse, Rat} 100%; {Cattle, Dog} 100%; {Cattle, Mouse, Rat} 0%.
+- PSEN2: NJ tree built; bootstrap support for internal splits: {Mouse, Rat} 99%; {Cattle, Dog} 72%; {Dog, Mouse, Rat} 23%; {Cattle, Mouse, Rat} 5%; {Dog, Rat} 1%; {Cattle, Mouse} 0%; {Cattle, Dog, Rat} 0%.
+- APP: ClinVar query "APP[gene] AND missense_variant[molecular consequence]" returned 276 records (accessed 2026-11-03).
+- PSEN1: ClinVar query "PSEN1[gene] AND missense_variant[molecular consequence]" returned 361 records (accessed 2026-11-03).
+- PSEN2: ClinVar query "PSEN2[gene] AND missense_variant[molecular consequence]" returned 170 records (accessed 2026-11-03).
+- APP: ClinVar selection outcome: classification: Uncertain significance 201; classification: Conflicting classifications 24; classification: Benign/Likely benign 20; selected 16; no Alzheimer condition listed 7; review status below criteria provided 4; classification: Other 3; not a single-gene missense record for this gene 1.
+- PSEN1: ClinVar selection outcome: classification: Uncertain significance 132; selected 92; classification: Other 60; no Alzheimer condition listed 33; classification: Conflicting classifications 26; review status below criteria provided 14; classification: Benign/Likely benign 4.
+- PSEN2: ClinVar selection outcome: classification: Uncertain significance 136; classification: Conflicting classifications 14; classification: Benign/Likely benign 10; selected 4; review status below criteria provided 3; classification: Other 2; no Alzheimer condition listed 1.
+- APP: 16/16 selected variants mapped (9 distinct residues); 16 at residues identical in all species.
+- PSEN1: 92/92 selected variants mapped (69 distinct residues); 91 at residues identical in all species.
+- PSEN2: 4/4 selected variants mapped (3 distinct residues); 4 at residues identical in all species.
+- APP: UniProt P05067 canonical sequence identical to NP_000475.1; feature coordinates transferred.
+- APP: AlphaFold DB model AF-P05067-F1 (predicted, not experimental), 770 residues, mean pLDDT 67.4; sequence matches the reference protein. PDB experimental structures not analysed.
+- PSEN1: UniProt P49768 canonical sequence identical to NP_000012.1; feature coordinates transferred.
+- PSEN1: AlphaFold DB model AF-P49768-F1 (predicted, not experimental), 467 residues, mean pLDDT 72.1; sequence matches the reference protein. PDB experimental structures not analysed.
+- PSEN2: UniProt P49810 canonical sequence identical to NP_000438.2; feature coordinates transferred.
+- PSEN2: AlphaFold DB model AF-P49810-F1 (predicted, not experimental), 448 residues, mean pLDDT 71.8; sequence matches the reference protein. PDB experimental structures not analysed.
+- Figures written to 09_figures/, tables to 09_figures/tables.xlsx, settings to 01_metadata/analysis_settings.csv.

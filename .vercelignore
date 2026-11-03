@@ -2,4 +2,4 @@
 /*
 !site
 !vercel.json
-site/template.html
+site/build.py

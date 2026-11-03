@@ -1,0 +1,233 @@
+type,description,start,end
+Signal,,1,17
+Chain,Amyloid-beta precursor protein,18,770
+Chain,Soluble APP-alpha,18,687
+Chain,Soluble APP-beta,18,671
+Chain,N-APP,18,286
+Chain,C99,672,770
+Chain,Amyloid-beta protein 42,672,713
+Chain,Amyloid-beta protein 40,672,711
+Chain,C83,688,770
+Peptide,P3(42),688,713
+Peptide,P3(40),688,711
+Chain,C80,691,770
+Chain,Gamma-secretase C-terminal fragment 59,712,770
+Chain,Gamma-secretase C-terminal fragment 57,714,770
+Chain,Gamma-secretase C-terminal fragment 50,721,770
+Chain,C31,740,770
+Topological domain,Extracellular,18,701
+Transmembrane,Helical,702,722
+Topological domain,Cytoplasmic,723,770
+Domain,E1,28,189
+Domain,BPTI/Kunitz inhibitor,291,341
+Domain,E2,374,565
+Region,GFLD subdomain,28,123
+Region,CuBD subdomain,131,189
+Region,Disordered,194,284
+Region,Heparin-binding,391,423
+Region,Heparin-binding,491,522
+Region,Collagen-binding,523,540
+Region,Interaction with PSEN1,695,722
+Region,Interaction with G(o)-alpha,732,751
+Region,Required for the interaction with KIF5B and for anterograde transport in axons,756,770
+Motif,OX-2,344,365
+Motif,Basolateral sorting signal,724,734
+Motif,YENPXY motif; contains endocytosis signal,757,762
+Compositional bias,Acidic residues,194,207
+Compositional bias,Acidic residues,228,264
+Compositional bias,Low complexity,268,281
+Binding site,,96,110
+Binding site,,147,147
+Binding site,,151,151
+Binding site,,168,168
+Binding site,,183,183
+Binding site,,186,186
+Binding site,,187,187
+Binding site,,677,677
+Binding site,,677,677
+Binding site,,681,681
+Binding site,,681,681
+Binding site,,684,684
+Binding site,,684,684
+Binding site,,685,685
+Binding site,,685,685
+Site,Required for Cu(2+) reduction,170,170
+Site,Cleavage; by caspases,197,198
+Site,Cleavage; by caspases,219,220
+Site,Reactive bond,301,302
+Site,Cleavage; by beta-secretase,671,672
+Site,Cleavage; by caspase-6; when associated with variant 670-N-L-671,672,673
+Site,Cleavage; by ACE,678,679
+Site,Cleavage; by alpha-secretase,687,688
+Site,Cleavage; by theta-secretase,690,691
+Site,Implicated in free radical propagation,704,704
+Site,Susceptible to oxidation,706,706
+Site,Cleavage; by gamma-secretase; site 1,711,712
+Site,Cleavage; by gamma-secretase; site 2,713,714
+Site,Cleavage; by gamma-secretase; site 3,720,721
+Site,"Cleavage; by caspase-6, caspase-8 or caspase-9",739,740
+Modified residue,Phosphoserine; by CK2,198,198
+Modified residue,Phosphoserine; by CK1,206,206
+Modified residue,Sulfotyrosine,217,217
+Modified residue,Sulfotyrosine,262,262
+Modified residue,Sulfotyrosine,336,336
+Modified residue,Phosphoserine; by FAM20C,441,441
+Modified residue,Phosphotyrosine,497,497
+Modified residue,Phosphothreonine,729,729
+Modified residue,Phosphoserine; by APP-kinase I,730,730
+Modified residue,Phosphothreonine; by CDK5 and MAPK10,743,743
+Modified residue,Phosphotyrosine,757,757
+Glycosylation,N-linked (GlcNAc...) asparagine,542,542
+Glycosylation,N-linked (GlcNAc...) asparagine,571,571
+Glycosylation,O-linked (GalNAc...) threonine; partial,633,633
+Glycosylation,O-linked (GalNAc...) threonine; partial,651,651
+Glycosylation,O-linked (GalNAc...) threonine; partial,652,652
+Glycosylation,O-linked (Xyl...) (chondroitin sulfate) serine; in L-APP isoforms,656,656
+Glycosylation,O-linked (HexNAc...) threonine; partial,659,659
+Glycosylation,O-linked (GalNAc...) threonine; partial,663,663
+Glycosylation,O-linked (GalNAc...) serine; partial,667,667
+Glycosylation,O-linked (HexNAc...) tyrosine; partial,681,681
+Disulfide bond,,38,62
+Disulfide bond,,73,117
+Disulfide bond,,98,105
+Disulfide bond,,133,187
+Disulfide bond,,144,174
+Disulfide bond,,158,186
+Disulfide bond,,291,341
+Disulfide bond,,300,324
+Disulfide bond,,316,337
+Cross-link,Glycyl lysine isopeptide (Lys-Gly) (interchain with G-Cter in ubiquitin),763,763
+Alternative sequence,in isoform 11,1,19
+Alternative sequence,in isoform APP639,19,74
+Alternative sequence,in isoform APP639,289,363
+Alternative sequence,"in isoform APP695, isoform L-APP696, isoform L-APP677 and isoform APP714",289,289
+Alternative sequence,in isoform APP695 and isoform L-APP677,290,364
+Alternative sequence,in isoform L-APP696 and isoform APP714,290,345
+Alternative sequence,in isoform APP305,290,305
+Alternative sequence,in isoform APP305,306,770
+Alternative sequence,in isoform 11,345,364
+Alternative sequence,in isoform L-APP733 and isoform APP751,345,345
+Alternative sequence,in isoform L-APP733 and isoform APP751,346,364
+Alternative sequence,in isoform APP639,364,364
+Alternative sequence,"in isoform L-APP677, isoform L-APP696, isoform L-APP733 and isoform L-APP752",637,654
+Natural variant,in dbSNP:rs45588932,501,501
+Natural variant,in a patient with late onset Alzheimer disease; dbSNP:rs63750363,665,665
+Natural variant,in AD1; Swedish mutation; highly increases hydrolysis by BACE1 and amyloid-beta proteins production; dbSNP:rs281865161,670,671
+Natural variant,in AD1; dbSNP:rs63750064,678,678
+Natural variant,in AD1; Flemish mutation; increases the solubility of processed amyloid-beta peptides and increases the stability of peptide oligomers; dbSNP:rs63750671,692,692
+Natural variant,in AD1; dbSNP:rs63751039,693,693
+Natural variant,in CAA-APP; Italian type; dbSNP:rs63750579,693,693
+Natural variant,in CAA-APP; Dutch type; dbSNP:rs63750579,693,693
+Natural variant,in CAA-APP; Iowa type; dbSNP:rs63749810,694,694
+Natural variant,in CAA-APP; Italian type; dbSNP:rs63750921,705,705
+Natural variant,in AD1; dbSNP:rs63750066,713,713
+Natural variant,in one chronic schizophrenia patient; uncertain significance; dbSNP:rs1800557,713,713
+Natural variant,in AD1; dbSNP:rs63750643,714,714
+Natural variant,in AD1; increased amyloid-beta protein 42/40 ratio; dbSNP:rs63750973,714,714
+Natural variant,in AD1; decreased amyloid-beta protein 40/total amyloid-beta; dbSNP:rs63750734,715,715
+Natural variant,in AD1; dbSNP:rs63750399,716,716
+Natural variant,in AD1; increased amyloid-beta protein 42/40 ratio; dbSNP:rs63750264,717,717
+Natural variant,in AD1; increased amyloid-beta protein 42/40 ratio; dbSNP:rs63749964,717,717
+Natural variant,in AD1; increased amyloid-beta protein 42/40 ratio; dbSNP:rs63750264,717,717
+Natural variant,in AD1; dbSNP:rs63750264,717,717
+Natural variant,in AD1; dbSNP:rs63751122,723,723
+Mutagenesis,Reduced heparin-binding.,99,102
+Mutagenesis,Loss of the copper binding site in the GFLD subdomain; when associated with A-110.,108,108
+Mutagenesis,Loss of the copper binding site in the GFLD subdomain; when associated with A-108.,110,110
+Mutagenesis,Binds copper. Forms dimer.,137,137
+Mutagenesis,Binds copper. Forms dimer.,141,141
+Mutagenesis,Binds copper. No dimer formation. No copper reducing activity.,144,144
+Mutagenesis,50% decrease in copper reducing activity.,147,149
+Mutagenesis,Loss of a copper binding site; when associated with A-151.,147,147
+Mutagenesis,Some decrease in copper reducing activity.,147,147
+Mutagenesis,Binds copper. Forms dimer.,147,147
+Mutagenesis,Greatly reduced copper-mediated low-density lipoprotein oxidation.,147,147
+Mutagenesis,Loss of a copper binding site; when associated with A-147.,151,151
+Mutagenesis,Greatly reduced copper-mediated low-density lipoprotein oxidation.,151,151
+Mutagenesis,Binds copper. Forms dimer.,151,151
+Mutagenesis,Greatly reduced casein kinase phosphorylation.,198,198
+Mutagenesis,Reduced casein kinase phosphorylation.,206,206
+Mutagenesis,Reduced affinity for heparin; when associated with A-503.,499,499
+Mutagenesis,Reduced affinity for heparin; when associated with A-499.,503,503
+Mutagenesis,Abolishes chondroitin sulfate binding in L-APP733 isoform.,656,656
+Mutagenesis,60-70% zinc-induced amyloid-beta protein 28 aggregation.,676,676
+Mutagenesis,60-70% zinc-induced amyloid-beta protein 28 aggregation.,681,681
+Mutagenesis,Only 23% zinc-induced amyloid-beta protein 28 aggregation.,684,684
+Mutagenesis,Causes formation of an artifactual disulfide bond with PSEN1.,695,695
+Mutagenesis,Reduced protein oxidation. No hippocampal neuron toxicity.,704,704
+Mutagenesis,Reduced lipid peroxidation inhibition.,706,706
+Mutagenesis,No free radical production. No hippocampal neuron toxicity.,706,706
+Mutagenesis,Unchanged amyloid-beta protein 42/total amyloid-beta ratio.,717,717
+Mutagenesis,Decreased amyloid-beta protein 42/total amyloid-beta ratio.,717,717
+Mutagenesis,Increased amyloid-beta protein 42/40 ratio. No change in apoptosis after caspase cleavage.,717,717
+Mutagenesis,No effect on APBA1 nor APBB1 binding. Greatly reduces the binding to APPBP2. APP internalization unchanged. No change in amyloid-beta protein 42 secretion.,728,728
+Mutagenesis,No cleavage by caspases during apoptosis.,739,739
+Mutagenesis,No effect on FADD-induced apoptosis.,739,739
+Mutagenesis,Greatly reduces the binding to SHC1 and APBB family members; no effect on NGF-stimulated neurite extension. Loss of phosphorylation by LRRK2.,743,743
+Mutagenesis,Reduced NGF-stimulated neurite extension. No effect on APP maturation.,743,743
+Mutagenesis,APP internalization unchanged. No change in amyloid-beta protein 42 secretion.,756,756
+Mutagenesis,No effect on C99 interaction with SORL1.,757,762
+Mutagenesis,Little APP internalization. Reduced amyloid-beta protein 42 secretion.,757,757
+Mutagenesis,"Loss of binding to MAPK8IP1, APBA1, APBB1, APPBP2 and SHC1.",757,757
+Mutagenesis,"No binding to APBA1, no effect on APBB1 binding. Little APP internalization. Reduced amyloid-beta protein 42 secretion.",759,759
+Mutagenesis,Little APP internalization. Reduced amyloid-beta protein 42 secretion.,760,760
+Mutagenesis,Loss of binding to APBA1 and APBB1. APP internalization unchanged. No change in amyloid-beta protein 42 secretion.,762,762
+Sequence conflict,in Ref. 3; CAA31830,15,16
+Sequence conflict,in Ref. 36; AAA51722,647,647
+Sequence conflict,in Ref. 23; AAB26263/AAB26264,724,724
+Sequence conflict,in Ref. 23; AAB26263/AAB26264/AAB26265,731,731
+Sequence conflict,in Ref. 31; AAA35540,757,757
+Helix,,26,28
+Helix,,30,32
+Beta strand,,33,35
+Beta strand,,43,45
+Turn,,47,49
+Beta strand,,52,54
+Beta strand,,56,58
+Helix,,66,76
+Beta strand,,82,87
+Beta strand,,92,94
+Beta strand,,97,99
+Turn,,100,102
+Beta strand,,103,106
+Beta strand,,110,112
+Beta strand,,115,119
+Helix,,124,126
+Beta strand,,134,139
+Helix,,147,160
+Beta strand,,163,174
+Turn,,175,177
+Beta strand,,178,188
+Helix,,288,292
+Beta strand,,299,301
+Beta strand,,304,310
+Turn,,311,314
+Beta strand,,315,321
+Beta strand,,323,325
+Beta strand,,331,333
+Helix,,334,341
+Helix,,374,380
+Helix,,389,418
+Beta strand,,421,423
+Helix,,425,480
+Beta strand,,482,484
+Helix,,487,518
+Helix,,520,546
+Helix,,547,550
+Helix,,552,566
+Helix,,615,618
+Beta strand,,620,622
+Helix,,673,675
+Turn,,677,679
+Beta strand,,682,684
+Beta strand,,688,691
+Beta strand,,692,694
+Turn,,695,698
+Beta strand,,701,703
+Beta strand,,707,712
+Helix,,713,715
+Turn,,716,718
+Beta strand,,721,725
+Helix,,744,754
+Beta strand,,756,758
+Beta strand,,763,765

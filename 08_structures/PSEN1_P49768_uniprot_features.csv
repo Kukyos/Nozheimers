@@ -1,0 +1,288 @@
+type,description,start,end
+Chain,Presenilin-1 NTF subunit,1,298
+Chain,Presenilin-1 CTF subunit,299,467
+Chain,Presenilin-1 CTF12,346,467
+Topological domain,Cytoplasmic,1,82
+Transmembrane,Helical,83,103
+Topological domain,Lumenal,104,132
+Transmembrane,Helical,133,153
+Topological domain,Cytoplasmic,154,166
+Transmembrane,Helical,167,189
+Topological domain,Lumenal,190,194
+Transmembrane,Helical,195,216
+Topological domain,Cytoplasmic,217,220
+Transmembrane,Helical,221,241
+Topological domain,Lumenal,242,248
+Transmembrane,Helical,249,272
+Topological domain,Cytoplasmic,273,380
+Transmembrane,Helical,381,401
+Topological domain,Lumenal,402,407
+Transmembrane,Helical,408,428
+Topological domain,Cytoplasmic,429,432
+Transmembrane,Helical,433,453
+Topological domain,Lumenal,454,467
+Region,Disordered,13,68
+Region,Important for cleavage of target proteins,288,290
+Region,Disordered,305,333
+Region,Required for interaction with CTNNB1,322,450
+Region,Required for interaction with CTNND2,372,399
+Region,Important for cleavage of target proteins,377,381
+Region,Important for cleavage of target proteins,432,434
+Region,Interaction with MTCH1,464,467
+Motif,PAL,433,435
+Compositional bias,Polar residues,13,29
+Compositional bias,Basic and acidic residues,30,45
+Active site,,257,257
+Active site,,385,385
+Site,Cleavage; alternate,291,292
+Site,Cleavage; alternate,292,293
+Site,Cleavage,298,299
+Site,Cleavage; by caspase,345,346
+Modified residue,Phosphoserine,43,43
+Modified residue,Phosphoserine,51,51
+Modified residue,Phosphoserine; by PKA,310,310
+Modified residue,Phosphoserine; by PKC,346,346
+Modified residue,Phosphoserine,367,367
+Alternative sequence,in isoform 2 and isoform 3,26,29
+Alternative sequence,in isoform 4,162,184
+Alternative sequence,in isoform 4,185,467
+Alternative sequence,in isoform 7,257,289
+Alternative sequence,in isoform 3 and isoform 5,319,467
+Alternative sequence,in isoform 6,319,376
+Natural variant,in AD3; uncertain significance; decreased protease activity with APP; dbSNP:rs63750592,35,35
+Natural variant,in AD3; also found in late-onset Alzheimer disease; impaired protease activity with APP; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; no effect on interaction with GFAP; dbSNP:rs63749824,79,79
+Natural variant,in AD3; decreased protease activity with APP; no effect on interaction with GFAP; dbSNP:rs63749967,82,82
+Natural variant,in AD3,83,83
+Natural variant,in AD3; the patient also manifest spastic paraparesis and apraxia; loss of protease activity with APP in vitro; altered amyloid-beta production in cells transfected with the mutant and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750599,85,85
+Natural variant,in AD3; decreased protease activity with APP; increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750815,89,89
+Natural variant,in AD3; loss of protease activity with APP; dbSNP:rs63751141,92,92
+Natural variant,in AD3; uncertain significance; reduced protease activity with APP; no relevant change in amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750831,94,94
+Natural variant,in AD3; loss of protease activity with APP; dbSNP:rs63750601,96,96
+Natural variant,in AD3; uncertain significance; slightly reduced protease activity with APP; dbSNP:rs63750852,97,97
+Natural variant,in AD3; dbSNP:rs63750321,105,105
+Natural variant,in FTD1; dbSNP:rs63751399,113,113
+Natural variant,in AD3; dbSNP:rs63750450,115,115
+Natural variant,in AD3; impaired protease activity with APP and increased amyloid-beta 42/amyloid-beta 40 ratio,115,115
+Natural variant,in AD3; dbSNP:rs63750730,116,116
+Natural variant,in AD3; unusual amyloid cotton wool plaques detected in one patient's brain; severe decrease of protease activity with APP; results in increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750730,116,116
+Natural variant,in AD3; impaired ability to cleave Ephb2/CTF1; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; impaired regulation of neurite outgrowth; dbSNP:rs63749805,117,117
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; impaired regulation of neurite outgrowth; dbSNP:rs63750550,117,117
+Natural variant,in AD3; impaired protease activity with APP and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751272,120,120
+Natural variant,in AD3; impaired protease activity with APP and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750800,120,120
+Natural variant,in AD3; uncertain significance; loss of protease activity with APP; dbSNP:rs1595002439,134,134
+Natural variant,in AD3; impaired protease activity with APP and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750353,135,135
+Natural variant,in AD3; dbSNP:rs63750522,139,139
+Natural variant,in AD3; dbSNP:rs63751106,139,139
+Natural variant,in AD3; dbSNP:rs63751106,139,139
+Natural variant,in AD3; increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751037,139,139
+Natural variant,in AD3; uncertain significance,142,142
+Natural variant,in AD3; dbSNP:rs63750322,143,143
+Natural variant,in AD3; impaired protease activity with APP; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750004,143,143
+Natural variant,in AD3; dbSNP:rs63750391,146,146
+Natural variant,in AD3; disease phenotype shows high clinical variability; founder mutation originating from Southern Italy and distributed worldwide; alters the conformation of the active site; slightly increased protease activity with APP; decreased activity for Notch1 cleavage; no loss of its ability to cleave Ephb2/CTF1; dbSNP:rs63750306,146,146
+Natural variant,in AD3; loss of function as calcium-leak channel; results in calcium overload in the endoplasmic reticulum; dbSNP:rs63750306,146,146
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750907,147,147
+Natural variant,in AD3; abolishes protease activity with APP resulting in decreased amyloid-beta 42 and amyloid-beta 40 production; dbSNP:rs63751441,153,153
+Natural variant,in AD3; uncertain significance; dbSNP:rs63751292,154,154
+Natural variant,in AD3; disease phenotype includes spastic paraparesis; abolishes protease activity with APP resulting in decreased amyloid-beta 42 and amyloid-beta 40 production; dbSNP:rs63750588,154,154
+Natural variant,in AD3; uncertain significance,156,156
+Natural variant,in AD3; uncertain significance; dbSNP:rs778630379,159,159
+Natural variant,in AD3; abolishes protease activity with APP; decreased activity for Notch cleavage; dbSNP:rs63750590,163,163
+Natural variant,in AD3; slightly increased protease activity with APP and slightly increased amyloid-beta 42 production; dbSNP:rs63749885,163,163
+Natural variant,in AD3; dbSNP:rs63751484,165,165
+Natural variant,in AD3; onset in adolescence; severe decrease of protease activity with APP; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; results in reduced Notch proteolysis; dbSNP:rs63750265,166,166
+Natural variant,in AD3; uncertain significance; abolishes protease activity with APP resulting in decreased amyloid-beta 42 and amyloid-beta 40 production,168,168
+Natural variant,in AD3; dbSNP:rs63751210,169,169
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750418,169,169
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750577,170,170
+Natural variant,in AD3; abolishes protease activity with APP; dbSNP:rs63750963,171,171
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750299,173,173
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751144,174,174
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63749911,177,177
+Natural variant,in AD3; uncertain significance; dbSNP:rs63749806,177,177
+Natural variant,in AD3; uncertain significance; abolishes protease activity with APP; dbSNP:rs63750155,178,178
+Natural variant,in PIDB and AD3; uncertain significance; neuropathologic examination of brain sections from a patient shows the presence of Pick bodies and absence of beta-amyloid plaques; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio in vitro; dbSNP:rs63751068,183,183
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750311,184,184
+Natural variant,in dbSNP:rs1042864,205,205
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750082,206,206
+Natural variant,in AD3; affects APP processing resulting in increased amyloid-beta 42/amyloid-beta 40 ratio; does not affect NOTCH processing; does not affect endoproteolysis; reduced interaction with PEN2; results in decreased protein levels in the endoplasmic reticulum but increased levels in early endosome; reduced ability to maintain ER calcium homeostasis; dbSNP:rs63750082,206,206
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750569,206,206
+Natural variant,in AD3; uncertain significance; dbSNP:rs63750053,209,209
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63749880,209,209
+Natural variant,in AD3; abolishes protease activity with APP; dbSNP:rs63750053,209,209
+Natural variant,in AD3; increases protease activity with APP resulting in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750861,213,213
+Natural variant,in AD3; decreased protease activity with APP resulting in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751309,213,213
+Natural variant,found in a patient with dementia; uncertain significance; dbSNP:rs63751003,214,214
+Natural variant,in AD3; with unusual amyloid cotton wool plaques; decreased protease activity with APP resulting in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs267606983,217,217
+Natural variant,in AD3; dbSNP:rs63750761,219,219
+Natural variant,in AD3; uncertain significance; slightly increased protease activity with APP and slightly increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750009,222,222
+Natural variant,in AD3; decreased protease activity with APP resulting in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63749970,229,229
+Natural variant,in AD3; decreased protease activity with APP resulting in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63749836,231,231
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750799,231,231
+Natural variant,in AD3; slightly decreased protease activity with APP resulting in altered amyloid-beta production and mildly increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751287,233,233
+Natural variant,in AD3; decreased protease activity with APP resulting in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751024,233,233
+Natural variant,in AD3; abolishes protease activity with APP; dbSNP:rs63749835,235,235
+Natural variant,in AD3; abolishes protease activity with APP,235,235
+Natural variant,in AD3; reduced APP cleavage resulting in decreased amyloid-beta 42 and amyloid-beta 40 production; no relevant change in amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751130,235,235
+Natural variant,in AD3; uncertain significance; disease phenotype includes spastic paraparesis; severe decrease of protease activity with APP; results in decreased amyloid-beta 42 and amyloid-beta 40 production; dbSNP:rs63750858,237,237
+Natural variant,in AD3; uncertain significance; dbSNP:rs63750858,237,237
+Natural variant,in AD3; nearly abolishes protease activity with APP; increased amyloid-beta 42/amyloid-beta 40 ratio; no loss of its ability to cleave Ephb2/CTF1; dbSNP:rs63750526,246,246
+Natural variant,in AD3; nearly abolishes protease activity with APP; increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751163,250,250
+Natural variant,in AD3; nearly abolishes protease activity with APP; increased amyloid-beta 42/amyloid-beta 40 ratio; impaired ability to cleave Ephb2/CTF1; dbSNP:rs63751420,260,260
+Natural variant,in AD3; nearly abolishes protease activity with APP; increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750964,261,261
+Natural variant,in AD3; decreased protease activity with APP resulting in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750248,262,262
+Natural variant,in AD3,262,262
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751102,263,263
+Natural variant,in AD3; decreased protease activity with APP; increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750543,263,263
+Natural variant,in AD3; decreased protease activity with APP; increased amyloid-beta 42/amyloid-beta 40 ratio; impaired ability to cleave Ephb2/CTF1; dbSNP:rs63750301,264,264
+Natural variant,in AD3; nearly abolishes protease activity with APP; increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs121917807,266,266
+Natural variant,in AD3; decreased protease activity with APP; increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751229,267,267
+Natural variant,in AD3; decreased protease activity with APP; increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751019,269,269
+Natural variant,in AD3; dbSNP:rs63750900,269,269
+Natural variant,in AD3; abolishes protease activity with APP; dbSNP:rs63750886,271,271
+Natural variant,in AD3; uncertain significance; abolishes protease activity with APP; dbSNP:rs63750284,274,274
+Natural variant,in AD3; uncertain significance; reduced protease activity with APP resulting in reduced amyloid-beta 40 levels but no relevant changes in amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs1555355869,275,275
+Natural variant,"in AD3; atypical phenotype presenting as language impairment, impaired frontal executive function and relative preservation of memory; severe decrease of APP and Notch proteolysis; dbSNP:rs63749891",278,278
+Natural variant,in AD3; dbSNP:rs63749891,278,278
+Natural variant,in AD3; strong deposition of amyloid-beta 42 is observed in brain regions of AD3 patients; decreased protease activity with APP resulting in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; decreased activity for Notch1 cleavage; dbSNP:rs63750231,280,280
+Natural variant,in AD3; some AD3 patients manifest spastic paraparesis and unusual amyloid plaques with prominent amyloid angiopathy on brain biopsy; decreased protease activity with APP; increased amyloid-beta 42/amyloid-beta 40 ratio; impaired ability to cleave Ephb2/CTF1; dbSNP:rs63750231,280,280
+Natural variant,in AD3; abolishes protease activity with APP; dbSNP:rs63750050,282,282
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63749937,282,282
+Natural variant,in AD3; slightly decreased protease activity with APP and slightly decreased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751139,285,285
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751235,286,286
+Natural variant,in AD3,289,289
+Natural variant,found in patients with late-onset Alzheimer disease; uncertain significance; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs115865530,311,311
+Natural variant,found in a renal cell carcinoma sample; somatic mutation,315,315
+Natural variant,in dbSNP:rs17125721,318,318
+Natural variant,in CMD1U; results in slightly decreased protease activity with APP and slightly decreased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs121917809,333,333
+Natural variant,in AD3; uncertain significance,352,352
+Natural variant,in AD3; uncertain significance; results in decreased protease activity with APP and decreased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751164,354,354
+Natural variant,in AD3; uncertain significance; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751174,358,358
+Natural variant,in AD3; uncertain significance; dbSNP:rs63750941,365,365
+Natural variant,in AD3; uncertain significance,377,377
+Natural variant,in AD3; decreased protease activity with APP; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio,378,378
+Natural variant,in AD3; abolishes protease activity with APP; dbSNP:rs63750323,378,378
+Natural variant,in AD3; dbSNP:rs63750687,381,381
+Natural variant,in AD3; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750687,381,381
+Natural variant,in AD3; results in reduced APP and Notch proteolysis; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750646,384,384
+Natural variant,in AD3; abolishes protease activity with APP; dbSNP:rs63750883,390,390
+Natural variant,in AD3; results in reduced APP and Notch proteolysis; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63751416,392,392
+Natural variant,in AD3; uncertain significance; abolishes protease activity with APP; dbSNP:rs63750929,394,394
+Natural variant,in AD3; uncertain significance; decreased protease activity with APP; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio,396,396
+Natural variant,in AD3; uncertain significance; decreased protease activity with APP; dbSNP:rs63751254,405,405
+Natural variant,in AD3; dbSNP:rs906454643,408,408
+Natural variant,in AD3; uncertain significance; decreased protease activity with APP; dbSNP:rs63750227,409,409
+Natural variant,in AD3; results in reduced APP and Notch proteolysis; dbSNP:rs661,410,410
+Natural variant,in AD3; uncertain significance,417,417
+Natural variant,in AD3; uncertain significance; nearly abolishes protease activity with APP; dbSNP:rs63751316,418,418
+Natural variant,in AD3; uncertain significance; slightly decreased protease activity with APP; dbSNP:rs63751223,426,426
+Natural variant,in AD3; decreased protease activity with APP; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63750083,431,431
+Natural variant,in AD3; with unusual amyloid cotton wool plaques; almost abolishes gamma-secretase activity; no endoproteolytic cleavage; no APP nor NOTCH1 processing; no detectable amyloid-beta; dbSNP:rs63750001,435,435
+Natural variant,in AD3; severe decrease of protease activity with APP; dbSNP:rs121917808,436,436
+Natural variant,in AD3; partially abolishes gamma-secretase activity; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; dbSNP:rs63749925,436,436
+Natural variant,in AD3; uncertain significance; no significant change of protease activity with APP; dbSNP:rs63750249,439,439
+Mutagenesis,No effect on interaction with GFAP.,66,72
+Mutagenesis,No effect on interaction with GFAP.,76,77
+Mutagenesis,Loss of interaction with GFAP.,82,83
+Mutagenesis,Loss of interaction with GFAP.,82,82
+Mutagenesis,Loss of interaction with GFAP.,84,85
+Mutagenesis,Nearly abolishes protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,99,99
+Mutagenesis,Nearly abolishes protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,105,105
+Mutagenesis,Nearly abolishes protease activity with APP.,108,108
+Mutagenesis,Formation of an artifactual disulfide bond with a substrate protein.,112,112
+Mutagenesis,Severe decrease of protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,113,113
+Mutagenesis,Nearly abolishes protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,117,117
+Mutagenesis,Nearly abolishes protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,123,123
+Mutagenesis,Severe decrease of protease activity with APP.,131,131
+Mutagenesis,Decreased protease activity with APP.,136,136
+Mutagenesis,Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,143,143
+Mutagenesis,Nearly abolishes protease activity with APP.,150,150
+Mutagenesis,Decreased protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,165,165
+Mutagenesis,Nearly abolishes protease activity with APP.,168,168
+Mutagenesis,Nearly abolishes protease activity with APP.,176,176
+Mutagenesis,Nearly abolishes protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,184,184
+Mutagenesis,Nearly abolishes protease activity with APP.,202,202
+Mutagenesis,Nearly abolishes protease activity with APP.,212,212
+Mutagenesis,Nearly abolishes protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,214,214
+Mutagenesis,Decreased protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,219,219
+Mutagenesis,Abolishes protease activity with APP.,223,223
+Mutagenesis,Increases protease activity with APP.,226,226
+Mutagenesis,Abolishes protease activity with APP.,230,230
+Mutagenesis,Abolishes protease activity with APP.,238,238
+Mutagenesis,Abolishes protease activity with APP.,239,239
+Mutagenesis,Abolishes protease activity with APP.,245,245
+Mutagenesis,Nearly abolishes protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,248,248
+Mutagenesis,Alters gamma-secretase cleavage specificity. Increased production of amyloid-beta protein 42. No effect on enzymatic activity.,256,256
+Mutagenesis,Nearly abolishes protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,256,256
+Mutagenesis,Loss of endoproteolytic cleavage. Severe decrease of protease activity with APP. Reduces production of amyloid-beta. Reduces production of NICD in NOTCH1 processing. Impaired ability to cleave Ephb2/CTF1.,257,257
+Mutagenesis,Abolishes gamma-secretase activity. Reduces production of amyloid-beta in APP processing. Accumulation of full-length PS1. Loss of binding of transition state analog gamma-secretase inhibitor.,257,257
+Mutagenesis,Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,272,272
+Mutagenesis,Decreased protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,273,273
+Mutagenesis,Nearly abolishes protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,278,278
+Mutagenesis,No significant change of protease activity with APP.,284,284
+Mutagenesis,Increases production of amyloid-beta in APP processing.,286,286
+Mutagenesis,Reduces production of NICD in NOTCH1 processing.,286,286
+Mutagenesis,Loss of NOTCH1 and APPC83 cleavage.,288,290
+Mutagenesis,Abolishes protease activity with APP.,291,291
+Mutagenesis,Loss of endoproteolytic cleavage.,292,292
+Mutagenesis,Abolishes PKA-mediated phosphorylation; no effect on caspase-mediated cleavage.,310,310
+Mutagenesis,Abolishes caspase cleavage.,345,345
+Mutagenesis,Abolishes PKC-mediated phosphorylation; no effect on PKA-mediated phosphorylation.,346,346
+Mutagenesis,Inhibits caspase-mediated cleavage. Modulates progression of apoptosis.,346,346
+Mutagenesis,Decreased protease activity with APP.,352,352
+Mutagenesis,Slightly increased protease activity with APP.,365,365
+Mutagenesis,No effect on caspase cleavage.,373,373
+Mutagenesis,Loss of NOTCH1 and APPC83 cleavage.,377,381
+Mutagenesis,Nearly abolishes protease activity with APP.,377,377
+Mutagenesis,Loss of endoproteolytic cleavage. Severe decrease of protease activity with APP. Reduces production of amyloid-beta. Loss of NOTCH1 cleavage. Disassembly of the N-cadherin/PS1 complex at the cell surface. Impairs CDH2 processing.,385,385
+Mutagenesis,Abolishes gamma-secretase activity. Reduces production of amyloid-beta in APP processing. Accumulation of full-length PS1. Loss of binding of transition state analog gamma-secretase inhibitor.,385,385
+Mutagenesis,No effect on caspase cleavage.,385,385
+Mutagenesis,Nearly abolishes protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,386,386
+Mutagenesis,Alters gamma-secretase cleavage specificity. Increased production of amyloid-beta protein 42. No effect on enzymatic activity.,389,389
+Mutagenesis,Decreased protease activity with APP.,391,391
+Mutagenesis,Abolishes protease activity with APP.,412,412
+Mutagenesis,Decreased protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,420,420
+Mutagenesis,Increases protease activity with APP.,424,424
+Mutagenesis,Loss of NOTCH1 and APPC83 cleavage.,432,434
+Mutagenesis,Loss of NOTCH1 and APPC83 cleavage.,432,432
+Mutagenesis,No effect on endoproteolytic cleavage. No effect on APP nor NOTCH1 processing. Slightly increased amyloid-beta protein 42/40 ratio.,433,433
+Mutagenesis,"No endoproteolytic cleavage; no APP, nor NOTCH1 processing. No detectable amyloid-beta.",433,433
+Mutagenesis,Very little endoproteolysis. Little APP processing. No NOTCH1 processing. Very low levels amyloid-beta protein 40 and no detectable amyloid-beta protein 42.,433,433
+Mutagenesis,Some loss of endoproteolytic cleavage. Some loss of APP and NOTCH1 processing. 6 to 13-fold increase in amyloid-beta protein 42/40 ratio.,434,434
+Mutagenesis,No endoproteolytic cleavage. No APP nor NOTCH1 processing. No detectable amyloid-beta.,434,434
+Mutagenesis,No effect on endoproteolytic cleavage. No effect on APP nor NOTCH1 processing. Reduced amyloid-beta protein 42/40 ratio.,434,434
+Mutagenesis,No effect on endoproteolytic cleavage. No effect on APP processing. Impaired NOTCH1 processing. Greatly reduced amyloid-beta protein 42/40 ratio.,435,435
+Mutagenesis,Greatly reduced endoproteolytic cleavage. Very little APP and NOTCH1 processing. Very low levels of amyloid-beta protein 40 and no detectable amyloid-beta protein 42.,435,435
+Mutagenesis,No effect on endoproteolytic cleavage. No effect on APP nor NOTCH1 processing.,435,435
+Mutagenesis,"No endoproteolytic cleavage; no APP, nor NOTCH1 processing. No detectable amyloid-beta.",435,435
+Mutagenesis,No effect on endoproteolytic cleavage. No effect on APP processing. Impaired NOTCH1 processing. Some increase in amyloid-beta protein 42/40 ratio.,435,435
+Mutagenesis,Decreased protease activity with APP. Increased amyloid-beta 42/amyloid-beta 40 ratio in vitro.,437,437
+Sequence conflict,in Ref. 7; AAL16811,128,128
+Beta strand,,77,80
+Helix,,83,102
+Helix,,105,107
+Beta strand,,114,116
+Beta strand,,120,123
+Helix,,125,155
+Helix,,159,171
+Helix,,172,177
+Helix,,178,188
+Helix,,195,214
+Helix,,219,240
+Helix,,243,262
+Beta strand,,263,266
+Helix,,267,277
+Helix,,280,283
+Helix,,284,286
+Beta strand,,287,289
+Helix,,293,299
+Beta strand,,341,345
+Helix,,356,368
+Beta strand,,380,382
+Helix,,383,398
+Beta strand,,400,402
+Helix,,403,428
+Beta strand,,432,434
+Helix,,435,448
+Helix,,449,453
+Helix,,454,463

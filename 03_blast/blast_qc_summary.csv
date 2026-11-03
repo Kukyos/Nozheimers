@@ -1,0 +1,7 @@
+gene,species,top_hit,hit_title,in_ortholog_gene,is_selected_isoform,blast_pct_identity,query_coverage_pct,evalue,bit_score
+APP,Mus musculus,NP_001185752,amyloid-beta precursor protein isoform 1 precursor [Mus musculus],True,True,96.6,100.0,0.0,1551.95
+APP,Rattus norvegicus,NP_062161,amyloid-beta precursor protein precursor [Rattus norvegicus],True,True,96.9,100.0,0.0,1557.73
+APP,Canis lupus familiaris,NP_001006601,amyloid-beta precursor protein isoform APP-770 precursor [Canis lupus familiaris],True,True,96.9,100.0,0.0,1564.67
+APP,Bos taurus,XP_005201194,amyloid-beta precursor protein isoform X1 [Bos taurus],True,True,97.4,100.0,0.0,1574.68
+PSEN1,all,pending (BLAST still queued at NCBI),,,,,,,
+PSEN2,all,pending (BLAST still queued at NCBI),,,,,,,

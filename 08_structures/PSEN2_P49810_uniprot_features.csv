@@ -1,0 +1,70 @@
+type,description,start,end
+Chain,Presenilin-2 NTF subunit,1,297
+Chain,Presenilin-2 CTF subunit,298,448
+Topological domain,Cytoplasmic,1,87
+Transmembrane,Helical,88,108
+Topological domain,Lumenal,109,138
+Transmembrane,Helical,139,159
+Topological domain,Cytoplasmic,160,166
+Transmembrane,Helical,167,187
+Topological domain,Lumenal,188,200
+Transmembrane,Helical,201,221
+Topological domain,Cytoplasmic,222,223
+Transmembrane,Helical,224,244
+Topological domain,Lumenal,245,249
+Transmembrane,Helical,250,270
+Topological domain,Cytoplasmic,271,361
+Transmembrane,Helical,362,382
+Topological domain,Lumenal,383,388
+Transmembrane,Helical,389,409
+Topological domain,Cytoplasmic,410,413
+Intramembrane,Helical,414,434
+Topological domain,Cytoplasmic,435,448
+Region,Disordered,1,70
+Motif,Involved in late endosome/lysosome localization,16,21
+Motif,PAL,414,416
+Compositional bias,Polar residues,19,30
+Active site,,263,263
+Active site,,366,366
+Modified residue,Phosphoserine,19,19
+Modified residue,Phosphoserine,22,22
+Modified residue,Phosphoserine,25,25
+Modified residue,Phosphoserine,30,30
+Alternative sequence,in isoform 2,263,296
+Alternative sequence,in isoform 3,324,324
+Natural variant,in AD4; likely benign; dbSNP:rs58973334,62,62
+Natural variant,in AD4; uncertain significance; dbSNP:rs140501902,71,71
+Natural variant,in AD4; does not affect localization at late endosome/lysosome; strongly decreased N-cadherin- and Notch receptor processing; ligand-dependent; does not affect amyloid-beta formation; dbSNP:rs63749851,122,122
+Natural variant,in AD4; increased mitochondrion-endoplasmic reticulum membrane tethering resulting in increased calcium transfer to mitochondria; dbSNP:rs28936380,122,122
+Natural variant,in AD4; uncertain significance,126,126
+Natural variant,in CMD1V and AD4; uncertain significance; dbSNP:rs63750197,130,130
+Natural variant,in AD4; results in altered amyloid-beta production and increased amyloid-beta 42/amyloid-beta 40 ratio; loss of function as calcium-leak channel; results in calcium overload in the endoplasmic reticulum; increased mitochondrion-endoplasmic reticulum membrane tethering resulting in increased calcium transfer to mitochondria; does not affect localization at late endosome/lysosome; strongly decreased N-cadherin- and Notch receptor processing; ligand-dependent; does not affect amyloid-beta formation; dbSNP:rs63750215,141,141
+Natural variant,in AD4; dbSNP:rs61761208,141,141
+Natural variant,in AD4; late-onset Alzheimer disease; dbSNP:rs63750812,148,148
+Natural variant,in AD4; does not affect localization at late endosome/lysosome; affects amyloid-beta formation; dbSNP:rs63749884,239,239
+Natural variant,in AD4; does not affect localization at late endosome/lysosome; affects amyloid-beta formation; dbSNP:rs28936379,239,239
+Mutagenesis,"Impairs AP1G1 interaction. Does not affect aspartic endopeptidase activity, intramembrane cleaving. Does not affect gamma-secretase complex assemlby. Significantly decreases localization at late endosome/lysosome.",16,21
+Mutagenesis,"Does not affect AP1G1 interaction. Does not affect aspartic endopeptidase activity, intramembrane cleaving. Does not affect gamma-secretase complex assemlby. Does not affect localization at late endosome/lysosome.",19,19
+Mutagenesis,"Impairs AP1G1 interaction. Does not affect aspartic endopeptidase activity, intramembrane cleaving. Does not affect gamma-secretase complex assembly. Decreases localization at late endosome/lysosome.",19,19
+Mutagenesis,Reduces production of amyloid-beta in APP processing.,263,263
+Mutagenesis,Reduces production of amyloid-beta in APP processing and of NICD in NOTCH1 processing. Increased mitochondrion-endoplasmic reticulum membrane tethering resulting in increased calcium transfer to mitochondria.,366,366
+Sequence conflict,in Ref. 1; AAB59557 and 10; AAL16812,123,123
+Sequence conflict,in Ref. 10; AAL16812,295,295
+Sequence conflict,in Ref. 9; AAC50290,325,325
+Sequence conflict,in Ref. 9; AAC50290,358,361
+Helix,,86,106
+Turn,,107,109
+Turn,,170,173
+Helix,,174,180
+Turn,,181,183
+Helix,,184,195
+Helix,,201,219
+Helix,,225,245
+Turn,,249,251
+Helix,,252,261
+Helix,,364,377
+Beta strand,,380,383
+Helix,,385,409
+Helix,,416,430
+Turn,,431,434
+Helix,,435,443

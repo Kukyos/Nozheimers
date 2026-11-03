@@ -1,0 +1,10 @@
+step,tool_or_resource,version_or_endpoint,parameters,date
+2 Human references,NCBI Datasets v2 gene product_report; E-utilities efetch,https://api.ncbi.nlm.nih.gov/datasets/v2,MANE Select transcript and protein per gene,2026-11-03
+3 Orthologs,NCBI Datasets v2 gene orthologs + product_report; Biopython PairwiseAligner,https://api.ncbi.nlm.nih.gov/datasets/v2/gene/id/{id}/orthologs,"global alignment, BLOSUM62, gap open -11, extend -1; NP_ preferred within 5% of best score",2026-11-03
+5 BLAST QC,"NCBI BLAST URL API, blastp",BLASTP 2.17.0+,"db refseq_protein; Entrez query ""txid10090[ORGN] OR txid10116[ORGN] OR txid9615[ORGN] OR txid9913[ORGN]""; hitlist 100; matrix BLOSUM62; gap open/extend 11/1; expect 10",2026-11-03
+6 Multiple alignment,EMBL-EBI Job Dispatcher Clustal Omega REST,CLUSTAL O(1.2.4),"stype=protein, outfmt=clustal_num, order=input, all other parameters default",2026-11-03
+7 Identity/conservation,pipeline.py (Python),n/a,identity = identical / columns where both sequences have a residue; coverage = those columns / human length,2026-11-03
+8 Phylogeny,Biopython DistanceTreeConstructor (neighbour-joining),Biopython 1.88,"p-distance (gap columns excluded pairwise); 1000 bootstrap replicates, seed 1; midpoint-rooted for display; no substitution-model selection",2026-11-03
+9 ClinVar,"NCBI E-utilities esearch/esummary, db=clinvar",https://eutils.ncbi.nlm.nih.gov/entrez/eutils/,"term ""<GENE>[gene] AND missense_variant[molecular consequence]""; selection rule in methods_log.md",2026-11-03
+11 Domains/structure,UniProt REST; AlphaFold DB API,rest.uniprot.org; alphafold.ebi.ac.uk/api,reviewed human entry; features transferred only if sequence identical; pLDDT from CA B-factor,2026-11-03
+12 Figures,matplotlib,3.11.1,300 dpi PNG,2026-11-03

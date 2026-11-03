@@ -26,6 +26,7 @@ GENES = {'APP': 351, 'PSEN1': 5663, 'PSEN2': 5664}  # NCBI Gene IDs from the gui
 SPECIES = {9606: ('Homo sapiens', 'Human'), 10090: ('Mus musculus', 'Mouse'), 10116: ('Rattus norvegicus', 'Rat'),
            9615: ('Canis lupus familiaris', 'Dog'), 9913: ('Bos taurus', 'Cattle')}
 BOOTSTRAPS, SEED = 1000, 1
+BLAST_WAIT_MIN = 10  # BLAST is QC only: wait this long, then continue and fill it in on a later run
 NP_TOLERANCE = 0.95  # keep a curated NP_ isoform if its score is within 5% of the best candidate
 
 ROOT = Path(__file__).resolve().parent
@@ -260,34 +261,48 @@ def validate(seqs, meta):
 def blast_qc(refs, seqs, candidates):
     entrez = ' OR '.join(f'txid{t}[ORGN]' for t in SPECIES if t != 9606)
     rows = []
+    paths = {g: D['03_blast'] / f'{g}_blastp_{r["np"]}_refseq_protein.json' for g, r in refs.items()}
+    rids = {}
+    for gene, path in paths.items():  # submit every search up front so they queue at NCBI side by side
+        if path.exists():
+            continue
+        rid_file = path.with_suffix('.rid')
+        if rid_file.exists() and time.time() - rid_file.stat().st_mtime < 30 * 3600:  # NCBI keeps results ~36 h
+            rids[gene] = rid_file.read_text().strip()
+            log(f'{gene}: resuming BLASTp RID {rids[gene]}.')
+            continue
+        put = get(BLAST_URL, data=dict(CMD='Put', PROGRAM='blastp', DATABASE='refseq_protein', QUERY=refs[gene]['np'],
+                                       ENTREZ_QUERY=entrez, HITLIST_SIZE=100, EMAIL=EMAIL, TOOL=TOOL))
+        rids[gene] = re.search(r'RID = (\S+)', put).group(1)
+        rid_file.write_text(rids[gene])
+        log(f'{gene}: BLASTp submitted, RID {rids[gene]}.')
+    # ponytail: BLAST is QC only and nothing downstream needs it, so wait at most BLAST_WAIT_MIN and move on;
+    # a later re-run picks up the saved RIDs and fills the table in.
+    deadline = time.time() + BLAST_WAIT_MIN * 60
+    while rids:
+        for gene, rid in list(rids.items()):
+            try:
+                status = re.search(r'Status=(\w+)', get(BLAST_URL, params=dict(CMD='Get', FORMAT_OBJECT='SearchInfo', RID=rid))).group(1)
+            except requests.RequestException:
+                continue  # flaky network; the search keeps running at NCBI
+            if status == 'READY':
+                cached(paths[gene], lambda: get(BLAST_URL, params=dict(CMD='Get', FORMAT_TYPE='JSON2_S', RID=rid)))
+                paths[gene].with_suffix('.rid').unlink()
+                del rids[gene]
+            elif status != 'WAITING':  # expired or failed at NCBI: drop the RID so the next run resubmits
+                paths[gene].with_suffix('.rid').unlink()
+                del rids[gene]
+                log(f'{gene}: BLASTp RID {rid} returned status {status}; will resubmit on the next run.')
+        if not rids or time.time() > deadline:
+            break
+        time.sleep(60)  # NCBI asks for at most one status poll per minute per RID
     for gene, ref in refs.items():
-        path = D['03_blast'] / f'{gene}_blastp_{ref["np"]}_refseq_protein.json'
-
-        def run():
-            rid_file = path.with_suffix('.rid')  # resume a submitted search after a dropped connection
-            if rid_file.exists():
-                rid = rid_file.read_text().strip()
-                log(f'{gene}: resuming BLASTp RID {rid}.')
-            else:
-                put = get(BLAST_URL, data=dict(CMD='Put', PROGRAM='blastp', DATABASE='refseq_protein', QUERY=ref['np'],
-                                               ENTREZ_QUERY=entrez, HITLIST_SIZE=100, EMAIL=EMAIL, TOOL=TOOL))
-                rid = re.search(r'RID = (\S+)', put).group(1)
-                rid_file.write_text(rid)
-                log(f'{gene}: BLASTp submitted, RID {rid}.')
-            for _ in range(60):
-                time.sleep(60)  # NCBI asks for at most one status poll per minute per RID
-                try:
-                    status = re.search(r'Status=(\w+)', get(BLAST_URL, params=dict(CMD='Get', FORMAT_OBJECT='SearchInfo', RID=rid))).group(1)
-                except requests.RequestException:
-                    continue  # ponytail: flaky network here; keep polling, the search keeps running at NCBI
-                if status == 'READY':
-                    text = get(BLAST_URL, params=dict(CMD='Get', FORMAT_TYPE='JSON2_S', RID=rid))
-                    rid_file.unlink()
-                    return text
-                assert status == 'WAITING', f'BLAST {rid} status {status}'
-            raise TimeoutError(f'BLAST {rid} not ready after 60 min; re-run to resume')
-
-        report = json.loads(cached(path, run))['BlastOutput2'][0]['report']
+        path = paths[gene]
+        if not path.exists():
+            rows.append(dict(gene=gene, species='all', top_hit='pending (BLAST still queued at NCBI)'))
+            log(f'{gene}: BLASTp not finished at NCBI yet; paralog check pending. Re-run pipeline.py later to fill it in.')
+            continue
+        report = json.loads(path.read_text(encoding='utf-8'))['BlastOutput2'][0]['report']
         search = report['results']['search']
         for tax, (sci, common) in SPECIES.items():
             if tax == 9606 or tax not in seqs[gene]:
