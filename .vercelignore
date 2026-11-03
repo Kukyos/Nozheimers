@@ -3,3 +3,6 @@
 !site
 !vercel.json
 site/build.py
+
+site/test_live.js
+site/build_explorer.py

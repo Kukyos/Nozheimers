@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model Organism Explorer for APP, PSEN1 and PSEN2</title>
+<meta name="description" content="Compare the human Alzheimer's proteins APP, PSEN1 and PSEN2 with lab model organisms: sequence, 3D structure, disease residues and drug-binding pockets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a bench instrument. Choose gene and organism on top, the overlaid 3D structures fill the middle, the verdict and evidence sit beside and below. Human = cool blue-white, organism = amber, differences = magenta-hot. Single dark theme by choice. */
+:root {
+  --slide: #0a1630; --slide-2: #0f1f47; --panel: #13265a; --line: #2a4180;
+  --ink: #eef2ff; --muted: #9fb0d8;
+  --human: #8fb3ff; --org: #ffb627; --diff: #ff4f9a; --sim: #c792ff; --cyan: #3fe0e6; --ok: #5ee08a;
+  --display: "Unbounded", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: radial-gradient(1000px 600px at 95% -10%, #1b3a8a 0%, transparent 60%), var(--slide); background-attachment: fixed; color: var(--ink); font: 400 15.5px/1.55 var(--body); }
+h1, h2, h3 { font-family: var(--display); margin: 0; line-height: 1.15; text-wrap: balance; }
+h1 { font-size: clamp(1.5rem, 3.2vw, 2.3rem); font-weight: 800; }
+h2 { font-size: 1.2rem; font-weight: 700; }
+h3 { font-size: .9rem; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--cyan); }
+button, select, input { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; border-radius: 6px; }
+.muted { color: var(--muted); } .mono { font-family: var(--mono); font-size: .9em; }
+
+.bar { position: sticky; top: 0; z-index: 30; backdrop-filter: blur(10px); background: color-mix(in srgb, var(--slide) 88%, transparent); border-bottom: 1px solid var(--line); }
+.bar-in { max-width: 1440px; margin: 0 auto; padding: 10px 20px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.brand { font: 800 .92rem var(--display); white-space: nowrap; text-decoration: none; color: var(--ink); }
+.brand span { color: var(--org); }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg button { border: 1.5px solid var(--line); background: var(--slide-2); border-radius: 999px; padding: 6px 14px; cursor: pointer; font-weight: 700; font-size: .86rem; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--slide); border-color: var(--ink); }
+.seg.small button { padding: 4px 11px; font-size: .8rem; }
+.genes button { font-family: var(--display); }
+
+main { max-width: 1440px; margin: 0 auto; padding: 20px 20px 80px; display: grid; gap: 22px; }
+.intro { display: grid; gap: 8px; }
+.intro p { color: var(--muted); max-width: 90ch; }
+
+.picker { display: grid; gap: 10px; }
+.groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px 18px; }
+.group h3 { font-size: .74rem; color: var(--muted); margin-bottom: 6px; font-family: var(--body); font-weight: 700; }
+.org { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid var(--line); background: var(--slide-2); border-radius: 10px; padding: 5px 10px; margin: 0 6px 6px 0; cursor: pointer; font-weight: 700; font-size: .86rem; }
+.org[aria-pressed="true"] { border-color: var(--org); background: color-mix(in srgb, var(--org) 22%, var(--slide-2)); }
+.org .dot { width: 8px; height: 8px; border-radius: 50%; }
+.org[disabled] { opacity: .4; cursor: not-allowed; }
+
+.work { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 18px; align-items: start; }
+.viewer { position: relative; height: min(72vh, 640px); min-height: 420px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: #071026; }
+.viewer .overlay { position: absolute; z-index: 5; left: 12px; top: 12px; display: grid; gap: 6px; pointer-events: none; }
+.chipline { display: inline-flex; gap: 8px; align-items: center; background: color-mix(in srgb, #071026 75%, transparent); border: 1px solid var(--line); padding: 4px 10px; border-radius: 999px; font-size: .8rem; }
+.chipline i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.viewer .loading { position: absolute; z-index: 6; inset: 0; display: grid; place-items: center; color: var(--muted); background: #071026cc; }
+.viewer .hint { position: absolute; z-index: 5; right: 12px; bottom: 10px; font-size: .78rem; color: var(--muted); pointer-events: none; }
+.tools { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; margin-top: 10px; }
+.tools label.t { font: 700 .74rem var(--body); color: var(--muted); margin-right: 6px; }
+.check { display: inline-flex; gap: 6px; align-items: center; font-size: .86rem; cursor: pointer; }
+.check input { accent-color: var(--org); }
+select { background: var(--slide-2); border: 1.5px solid var(--line); border-radius: 10px; padding: 6px 10px; }
+
+.side { display: grid; gap: 14px; }
+.card { background: color-mix(in srgb, var(--panel) 72%, transparent); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; }
+.verdict { border-left: 5px solid var(--muted); }
+.verdict.na { border-left-color: var(--muted); } .verdict.na .vtitle { color: var(--muted); }
+.verdict.strong { border-left-color: var(--ok); } .verdict.mid { border-left-color: var(--org); } .verdict.weak { border-left-color: var(--diff); }
+.vtitle { font: 800 1.05rem var(--display); }
+.verdict.strong .vtitle { color: var(--ok); } .verdict.mid .vtitle { color: var(--org); } .verdict.weak .vtitle { color: var(--diff); }
+.metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.metric { background: var(--slide-2); border-radius: 10px; padding: 8px 10px; }
+.metric b { display: block; font: 700 1.15rem var(--display); font-variant-numeric: tabular-nums; }
+.metric span { font-size: .76rem; color: var(--muted); }
+.readout { font-size: .88rem; min-height: 5.5em; }
+.readout table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: .84rem; }
+.readout td, .readout th { padding: 3px 6px; text-align: left; border-bottom: 1px solid var(--line); }
+.legend { display: grid; gap: 4px; font-size: .82rem; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; }
+
+.track { display: grid; gap: 4px; }
+.trackrow { display: grid; grid-template-columns: 92px 1fr; gap: 10px; align-items: center; font-size: .8rem; }
+.trackrow svg { width: 100%; height: 18px; display: block; }
+
+.tw { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: color-mix(in srgb, var(--slide-2) 80%, transparent); }
+table.data { border-collapse: collapse; width: 100%; font-size: .86rem; }
+table.data th, table.data td { padding: 8px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+table.data th { font: 700 .74rem var(--display); color: var(--muted); background: var(--slide-2); white-space: nowrap; }
+table.data td.n { text-align: right; font-variant-numeric: tabular-nums; }
+table.data tr.sel td { background: color-mix(in srgb, var(--org) 12%, transparent); }
+table.data tr { cursor: pointer; }
+.tag { font: 700 .72rem var(--body); padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
+.tag.strong { color: var(--ok); } .tag.mid { color: var(--org); } .tag.weak { color: var(--diff); } .tag.na { color: var(--muted); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 18px; }
+.btn { border: 1.5px solid var(--line); background: var(--slide-2); padding: 7px 14px; border-radius: 999px; cursor: pointer; font-weight: 700; font-size: .84rem; text-decoration: none; color: var(--ink); display: inline-block; }
+.btn:hover { border-color: var(--muted); }
+.search { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.search input { background: var(--slide-2); border: 1.5px solid var(--line); border-radius: 10px; padding: 7px 12px; min-width: 260px; }
+.results { display: flex; flex-wrap: wrap; gap: 6px; }
+footer { border-top: 1px solid var(--line); padding-top: 18px; font-size: .82rem; color: var(--muted); display: grid; gap: 6px; }
+@media (max-width: 1100px) { .work { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { main, .bar-in { padding-left: 14px; padding-right: 14px; } .grid2 { grid-template-columns: 1fr; } .metrics { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<div class="bar"><div class="bar-in">
+  <a class="brand" href="index.html">Noz<span>heimers</span></a>
+  <div class="seg genes" id="genes" role="group" aria-label="Gene"></div>
+  <span class="muted" style="font-size:.84rem">Human is always the reference</span>
+  <a class="btn" href="index.html" style="margin-left:auto">Results report</a>
+</div></div>
+
+<main>
+  <div class="intro">
+    <h1>Which lab animal carries the same protein as us?</h1>
+    <p>Pick a gene and an organism. The organism's protein is aligned to the human reference, its AlphaFold model is superposed on the human model, and every difference is highlighted. The verdict scores whether the animal keeps the human disease residues, the functional core and the drug-binding pockets seen in experimental human structures.</p>
+  </div>
+
+  <section class="picker" aria-label="Organism">
+    <div class="groups" id="groups"></div>
+    <div class="search">
+      <label for="q" class="muted" style="font-size:.84rem">Any other organism</label>
+      <input id="q" type="search" placeholder="Species or genus, e.g. Gorilla, Felis, Danio" autocomplete="off">
+      <span class="muted" id="qinfo" style="font-size:.8rem"></span>
+    </div>
+    <div class="results" id="results"></div>
+  </section>
+
+  <section class="work">
+    <div>
+      <div class="viewer" id="viewer">
+        <div class="overlay" id="ovl"></div>
+        <div class="loading" id="loading">Loading structures…</div>
+        <div class="hint">Drag rotate · scroll zoom · right-drag move · click a residue</div>
+      </div>
+      <div class="tools">
+        <div><label class="t">Colour</label><span class="seg small" id="modes"></span></div>
+        <div id="drugBox" style="display:none"><label class="t" for="drug">Drug</label><select id="drug"></select></div>
+        <label class="check"><input type="checkbox" id="showH" checked> Human</label>
+        <label class="check"><input type="checkbox" id="showO" checked> Organism</label>
+        <label class="check"><input type="checkbox" id="fade" checked> Fade low-confidence (pLDDT &lt; 50)</label>
+        <label class="check"><input type="checkbox" id="measure"> Measure distance (Å)</label>
+        <div><label class="t">Style</label><span class="seg small" id="styles"></span></div>
+      </div>
+    </div>
+    <aside class="side">
+      <div class="card verdict" id="verdict"></div>
+      <div class="card"><h3>Selected residue</h3><div class="readout" id="readout">Click a residue in the structure.</div></div>
+      <div class="card"><h3>Colour key</h3><div class="legend" id="legend"></div></div>
+    </aside>
+  </section>
+
+  <section class="card">
+    <h2>Along the sequence</h2>
+    <div class="track" id="track"></div>
+    <p class="muted" style="font-size:.8rem">Positions are human residue numbers. Secondary structure is assigned from each 3D model by 3Dmol.js (DSSP-style hydrogen-bond method). Click a track to jump to that residue.</p>
+  </section>
+
+  <section class="grid2">
+    <div class="card">
+      <h2>Drug-binding pockets</h2>
+      <p class="muted" style="font-size:.84rem">Residues within <span id="cut"></span> Å of the drug in experimental human structures (RCSB PDB). Identical pockets suggest a drug tested in the animal meets the same binding site. This is pocket conservation, not a docking simulation.</p>
+      <div class="tw"><table class="data" id="tDrug"></table></div>
+    </div>
+    <div class="card">
+      <h2>Records used</h2>
+      <div id="records" style="font-size:.88rem;display:grid;gap:6px"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap" id="downloads"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 id="rankTitle">All organisms ranked</h2>
+    <div class="tw"><table class="data" id="tRank"></table></div>
+    <p class="muted" style="font-size:.8rem" id="rules"></p>
+  </section>
+
+  <footer>
+    <p>Orthologs: NCBI Gene ortholog calls (Datasets API) mapped to UniProt; invertebrates use reviewed UniProt homologs because NCBI makes no ortholog call. Alignment: global, BLOSUM62, gap −11/−1. Superposition: Kabsch on Cα of residues with pLDDT ≥ 70 in both AlphaFold models; multi-domain proteins are fitted on their best-fitting domain. Drug pockets: heavy atoms within 4.5 Å in RCSB PDB entries 6LQG, 6LR4, 7C9I, 7D8X, 7Y5T, 6CO3, 4XXD, 5VZY, 5CSZ. Structures are AlphaFold predictions unless marked experimental. Code: <a href="https://github.com/Kukyos/Nozheimers">github.com/Kukyos/Nozheimers</a> (site/build_explorer.py). Built with help from an AI assistant (Claude).</p>
+  </footer>
+</main>
+
+<script src="explorer/explorer.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.4.2/3Dmol-min.js"></script>
+<script>
+const E = window.EXPLORER, $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const link = (u, t) => `<a href="${esc(u)}">${esc(t)}</a>`;
+const AA = { A:'Ala',R:'Arg',N:'Asn',D:'Asp',C:'Cys',E:'Glu',Q:'Gln',G:'Gly',H:'His',I:'Ile',L:'Leu',K:'Lys',M:'Met',F:'Phe',P:'Pro',S:'Ser',T:'Thr',W:'Trp',Y:'Tyr',V:'Val' };
+// BLOSUM62 positive pairs (conservative swaps), enough for the similar/different call
+const SIM = new Set(['ST','TS','IV','VI','IL','LI','LV','VL','LM','ML','IM','MI','MV','VM','FY','YF','FW','WF','YW','WY','KR','RK','DE','ED','EQ','QE','EK','KE','QK','KQ','QR','RQ','NS','SN','ND','DN','NH','HN','HY','YH','AS','SA','NT','TN','DQ','QD','HQ','QH','HE','EH','RN','NR','QN','NQ','EN','NE','FL','LF','FI','IF','FM','MF','AG','GA','SG','GS']);
+const C = { human: '#8fb3ff', org: '#ffb627', diff: '#ff4f9a', sim: '#c792ff', same: '#5b6fa8', gap: '#ff4f9a', dis: '#ff4f9a', pocket: '#3fe0e6', helix: '#ff7b54', sheet: '#ffd23f', coil: '#7f8fb8' };
+
+let gene = 'APP', tax = '10090', mode = 'identity', style = 'cartoon', drugId = null;
+let viewer, mH, mO, modelCache = {}, measureA = null, liveOrg = null;
+
+// ---------- pickers ----------
+Object.keys(E.genes).forEach(g => { const b = document.createElement('button'); b.type = 'button'; b.textContent = g; b.dataset.g = g; $('#genes').append(b); });
+$('#genes').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { gene = b.dataset.g; liveOrg = null; render(); } });
+const MODES = [['identity', 'Same / different'], ['plddt', 'Confidence'], ['ss', 'Secondary structure'], ['disease', 'Disease residues'], ['pocket', 'Drug pocket']];
+MODES.forEach(([k, t]) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = t; b.dataset.m = k; $('#modes').append(b); });
+$('#modes').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { mode = b.dataset.m; paint(); } });
+[['cartoon', 'Cartoon'], ['sticks', 'Cartoon + sticks'], ['surface', 'Surface']].forEach(([k, t]) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = t; b.dataset.s = k; $('#styles').append(b); });
+$('#styles').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { style = b.dataset.s; paint(); } });
+['#showH', '#showO', '#fade'].forEach(id => $(id).addEventListener('change', () => paint()));
+$('#measure').addEventListener('change', () => { measureA = null; });
+$('#drug').addEventListener('change', e => { drugId = e.target.value; paint(); });
+$('#cut').textContent = E.criteria.contact_A;
+
+function org() { return liveOrg || E.genes[gene].organisms[tax]; }
+
+function groupsUI() {
+  const G = E.genes[gene], groups = {};
+  E.presets.forEach(p => (groups[p.group] = groups[p.group] || []).push(p));
+  $('#groups').innerHTML = Object.entries(groups).map(([g, ps]) => `<div class="group"><h3>${esc(g)}</h3>${ps.map(p => {
+    const o = G.organisms[p.taxid], v = o && !o.missing ? verdict(o) : null;
+    return `<button type="button" class="org" data-t="${p.taxid}" aria-pressed="${!liveOrg && String(p.taxid) === tax}" ${!o || o.missing ? 'disabled title="' + esc(o?.missing || 'No ortholog') + '"' : ''}><span class="dot" style="background:${v ? { strong: 'var(--ok)', mid: 'var(--org)', weak: 'var(--diff)', na: 'var(--muted)' }[v.cls] : 'var(--muted)'}"></span>${esc(p.name)}</button>`;
+  }).join('')}</div>`).join('');
+}
+$('#groups').addEventListener('click', e => { const b = e.target.closest('.org'); if (b && !b.disabled) { tax = b.dataset.t; liveOrg = null; render(); } });
+
+// ---------- verdict (published rules) ----------
+const RULES = 'Strong model: ≥ 90% identical, ≥ 95% of human disease residues kept, ≥ 95% of the functional core identical, catalytic residues kept. Usable with care: ≥ 70% identical, catalytic residues kept, ≥ 85% of disease residues kept. Otherwise: distant model, for basic biology and genetics rather than human-specific tests. Thresholds are this project\'s choice, stated so they can be challenged.';
+function verdict(o) {
+  const dis = o.disease_total ? o.disease_same / o.disease_total : 1, core = o.core_total ? o.core_same / o.core_total : 1;
+  const act = (o.active || []).every(a => a.human === a.org);
+  const notes = [];
+  if (core < 1) notes.push(`${o.core_total - o.core_same} of ${o.core_total} ${E.genes[gene].core_label} residues differ`);
+  if (o.disease_same < o.disease_total) notes.push(`${o.disease_total - o.disease_same} human disease residue${o.disease_total - o.disease_same > 1 ? 's' : ''} not kept`);
+  if (!act) notes.push('catalytic residue changed');
+  if (o.coverage < 90 && o.identity >= 80) return { cls: 'na', title: 'Incomplete record', notes: [`the ${o.name} sequence covers only ${o.coverage}% of human ${gene} (likely a fragment), so missing residues count as changed; check a fuller record before concluding`] };
+  let cls = 'weak', title = 'Distant model';
+  if (o.identity >= 90 && dis >= .95 && core >= .95 && act) { cls = 'strong'; title = 'Strong model'; }
+  else if (o.identity >= 70 && act && dis >= .85) { cls = 'mid'; title = 'Usable with care'; }
+  if (gene === 'APP' && core < 1 && cls !== 'weak') notes.push('use a humanised APP (knock-in) for amyloid-beta work');
+  return { cls, title, notes };
+}
+
+function verdictUI() {
+  const o = org(), v = verdict(o), sp = o.superpose;
+  const drugs = (o.drugs || []);
+  const fullDrugs = drugs.filter(d => d.same === d.total).length;
+  $('#verdict').className = 'card verdict ' + v.cls;
+  $('#verdict').innerHTML = `<div class="vtitle">${v.title}: ${esc(o.name)} ${esc(gene)}</div>
+    <p style="font-size:.9rem">${v.cls === 'na' ? '' : v.cls === 'strong' ? `Tests on ${esc(o.name.toLowerCase())} ${esc(o.symbol)} should reflect the human protein closely.` : v.cls === 'mid' ? `${esc(o.name)} keeps most of the human protein, with the differences below.` : `${esc(o.name)} ${esc(o.symbol)} is too different for human-specific tests.`} ${v.notes.length ? esc(cap(v.notes.join('; '))) + '.' : ''}</p>
+    <div class="metrics">
+      <div class="metric"><b>${o.identity}%</b><span>identical to human (${o.coverage}% aligned)</span></div>
+      <div class="metric"><b>${o.disease_same}/${o.disease_total}</b><span>human disease residues kept (ClinVar)</span></div>
+      <div class="metric"><b>${o.core_same}/${o.core_total}</b><span>${esc(E.genes[gene].core_label)} identical</span></div>
+      <div class="metric"><b>${sp ? sp.rmsd + ' Å' : '—'}</b><span>${sp ? `structure RMSD on ${sp.n} Cα, ${esc(sp.region)}` : 'no AlphaFold model to compare'}</span></div>
+      ${drugs.length ? `<div class="metric"><b>${fullDrugs}/${drugs.length}</b><span>drug pockets identical</span></div>` : ''}
+      ${(o.active || []).length ? `<div class="metric"><b>${o.active.map(a => a.org + a.pos).join(' ')}</b><span>catalytic aspartates (human ${o.active.map(a => a.human + a.pos).join(' ')})</span></div>` : ''}
+    </div>
+    ${o.note ? `<p class="muted" style="font-size:.8rem">${esc(o.note)}</p>` : ''}`;
+}
+const cap = s => s ? s[0].toUpperCase() + s.slice(1) : s;
+
+// ---------- structures ----------
+async function text(url) { if (!modelCache[url]) modelCache[url] = await (await fetch(url)).text(); return modelCache[url]; }
+function transform(pdb, sp) {
+  if (!sp) return pdb;
+  const R = sp.rot, T = sp.tran;
+  return pdb.split('\n').map(l => {
+    if (!l.startsWith('ATOM') && !l.startsWith('HETATM')) return l;
+    const x = +l.slice(30, 38), y = +l.slice(38, 46), z = +l.slice(46, 54);
+    const nx = x * R[0][0] + y * R[1][0] + z * R[2][0] + T[0], ny = x * R[0][1] + y * R[1][1] + z * R[2][1] + T[1], nz = x * R[0][2] + y * R[1][2] + z * R[2][2] + T[2];
+    return l.slice(0, 30) + nx.toFixed(3).padStart(8) + ny.toFixed(3).padStart(8) + nz.toFixed(3).padStart(8) + l.slice(54);
+  }).join('\n');
+}
+let orgPdbText = '';
+async function loadModels() {
+  const G = E.genes[gene], o = org();
+  $('#loading').style.display = 'grid'; $('#loading').textContent = 'Loading structures…';
+  if (!viewer) viewer = $3Dmol.createViewer($('#viewer'), { backgroundColor: '#071026', antialias: true });
+  viewer.clear(); viewer.removeAllShapes(); viewer.removeAllLabels(); viewer.removeAllSurfaces();
+  const h = await text(G.human_model);
+  mH = viewer.addModel(h, 'pdb');
+  mO = null; orgPdbText = '';
+  if (o.model || o.model_text) {
+    const raw = o.model_text || await text(o.model);
+    orgPdbText = transform(raw, o.superpose);
+    mO = viewer.addModel(orgPdbText, 'pdb');
+  }
+  [mH, mO].filter(Boolean).forEach(m => viewer.setClickable({ model: m }, true, a => pick(a)));
+  $('#loading').style.display = 'none';
+  computeSS();
+  paint(true);
+}
+
+// human position <-> organism position
+function hToO(hp) { return org().map[hp]; }
+let oToH = {};
+function buildInverse() { oToH = {}; for (const [h, o] of Object.entries(org().map)) oToH[o] = +h; }
+function status(hp) {
+  const o = org(), op = hToO(hp), h = E.genes[gene].seq[hp - 1];
+  if (!op) return 'gap';
+  const r = o.seq[op - 1];
+  return r === h ? 'same' : SIM.has(h + r) ? 'sim' : 'diff';
+}
+
+const ssH = {}, ssO = {};
+function computeSS() {
+  for (const k in ssH) delete ssH[k]; for (const k in ssO) delete ssO[k];
+  mH.selectedAtoms({ atom: 'CA' }).forEach(a => ssH[a.resi] = a.ss || 'c');
+  if (mO) mO.selectedAtoms({ atom: 'CA' }).forEach(a => ssO[a.resi] = a.ss || 'c');
+}
+const ssColor = s => s === 'h' ? C.helix : s === 's' ? C.sheet : C.coil;
+const plddtColor = b => b >= 90 ? '#0053d6' : b >= 70 ? '#65cbf3' : b >= 50 ? '#ffdb13' : '#ff7d45';
+
+function paint(zoom) {
+  if (!viewer) return;
+  const G = E.genes[gene], o = org(), fade = $('#fade').checked;
+  $('#drugBox').style.display = mode === 'pocket' ? '' : 'none';
+  $('#modes').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.m === mode));
+  $('#styles').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.s === style));
+  viewer.removeAllSurfaces();
+  const drug = E.drugs.find(d => d.pdb === drugId && d.gene === gene);
+  const pocket = new Set(drug ? drug.residues : []);
+  const dis = new Set(G.disease.map(d => d.pos));
+  // per-model colour function on human numbering
+  const colorFor = (isHuman, resi, b) => {
+    const hp = isHuman ? resi : oToH[resi];
+    if (mode === 'plddt') return plddtColor(b);
+    if (mode === 'ss') return ssColor(isHuman ? ssH[resi] : ssO[resi]);
+    if (hp == null) return C.gap;
+    if (mode === 'identity') { const s = status(hp); return s === 'same' ? (isHuman ? C.human : C.org) : s === 'sim' ? C.sim : C.diff; }
+    if (mode === 'disease') return dis.has(hp) ? (status(hp) === 'same' ? C.dis : '#ffffff') : (isHuman ? '#41507e' : '#6b5a2e');
+    if (mode === 'pocket') return pocket.has(hp) ? (status(hp) === 'same' ? C.pocket : C.diff) : (isHuman ? '#41507e' : '#6b5a2e');
+    return isHuman ? C.human : C.org;
+  };
+  for (const [m, isHuman, show] of [[mH, true, $('#showH').checked], [mO, false, $('#showO').checked]]) {
+    if (!m) continue;
+    if (!show) { m.setStyle({}, {}); continue; }
+    const cf = atom => colorFor(isHuman, atom.resi, atom.b);
+    const base = { cartoon: { colorfunc: cf, opacity: 1 } };
+    m.setStyle({}, base);
+    if (fade) m.setStyle({ predicate: a => a.b < 50 }, { cartoon: { colorfunc: cf, opacity: 0.25 } });
+    if (style === 'sticks' || mode === 'pocket' || mode === 'disease') {
+      const keyRes = new Set();
+      if (style === 'sticks') m.selectedAtoms({ atom: 'CA' }).forEach(a => { const hp = isHuman ? a.resi : oToH[a.resi]; if (hp && status(hp) !== 'same') keyRes.add(a.resi); });
+      if (mode === 'pocket') pocket.forEach(hp => keyRes.add(isHuman ? hp : hToO(hp)));
+      if (mode === 'disease') dis.forEach(hp => { if (status(hp) !== 'same') keyRes.add(isHuman ? hp : hToO(hp)); });
+      const list = [...keyRes].filter(Boolean);
+      if (list.length) m.addStyle({ resi: list }, { stick: { colorfunc: cf, radius: 0.2 } });
+    }
+    if (style === 'surface') viewer.addSurface($3Dmol.SurfaceType.VDW, { colorfunc: cf, opacity: 0.85 }, { model: m });
+  }
+  legendUI();
+  overlayUI();
+  if (zoom) viewer.zoomTo();
+  viewer.render();
+}
+
+function legendUI() {
+  const o = org();
+  const L = {
+    identity: [[C.human, 'Human, same residue'], [C.org, `${o.name}, same residue`], [C.sim, 'Conservative swap (similar chemistry)'], [C.diff, 'Different residue or gap']],
+    plddt: [['#0053d6', 'Very high confidence (pLDDT ≥ 90)'], ['#65cbf3', 'Confident (70–90)'], ['#ffdb13', 'Low (50–70)'], ['#ff7d45', 'Very low (< 50), likely disordered']],
+    ss: [[C.helix, 'Helix'], [C.sheet, 'Sheet'], [C.coil, 'Coil / loop']],
+    disease: [[C.dis, 'Human disease residue, kept in organism'], ['#ffffff', 'Human disease residue, changed in organism'], ['#41507e', 'Other residues']],
+    pocket: [[C.pocket, 'Drug-contact residue, identical'], [C.diff, 'Drug-contact residue, different'], ['#41507e', 'Other residues']]
+  }[mode];
+  $('#legend').innerHTML = L.map(([c, t]) => `<div><i style="background:${c}"></i>${esc(t)}</div>`).join('');
+}
+function overlayUI() {
+  const o = org(), G = E.genes[gene];
+  $('#ovl').innerHTML = `<span class="chipline"><i style="background:${C.human}"></i>Human ${esc(gene)} · AlphaFold ${esc(G.alphafold)} (predicted)</span>`
+    + (o.model || o.model_text ? `<span class="chipline"><i style="background:${C.org}"></i>${esc(o.name)} ${esc(o.symbol)} · ${esc(o.alphafold || 'AlphaFold')} (predicted, mean pLDDT ${o.plddt_mean ?? '?'})</span>` : `<span class="chipline">${esc(o.name)}: no AlphaFold model available</span>`);
+}
+
+function pick(atom) {
+  const isHuman = atom.model === mH.getID();
+  const G = E.genes[gene], o = org();
+  const hp = isHuman ? atom.resi : oToH[atom.resi];
+  if ($('#measure').checked) {
+    if (!measureA) { measureA = atom; $('#readout').innerHTML = `First point: ${isHuman ? 'human' : o.name} ${atom.resn}${atom.resi} ${atom.atom}. Click a second atom.`; return; }
+    const d = Math.hypot(atom.x - measureA.x, atom.y - measureA.y, atom.z - measureA.z);
+    viewer.addCylinder({ start: { x: measureA.x, y: measureA.y, z: measureA.z }, end: { x: atom.x, y: atom.y, z: atom.z }, radius: 0.08, color: '#ffffff', dashed: true });
+    viewer.addLabel(d.toFixed(2) + ' Å', { position: { x: (atom.x + measureA.x) / 2, y: (atom.y + measureA.y) / 2, z: (atom.z + measureA.z) / 2 }, fontSize: 13, backgroundColor: '#13265a', fontColor: '#fff' });
+    $('#readout').innerHTML = `<b>${d.toFixed(2)} Å</b> between ${measureA.resn}${measureA.resi} ${measureA.atom} and ${atom.resn}${atom.resi} ${atom.atom}.`;
+    measureA = null; viewer.render(); return;
+  }
+  if (hp == null) { $('#readout').innerHTML = `${esc(o.name)} residue ${atom.resi} (${atom.resn}) has no human counterpart (insertion).`; return; }
+  const op = hToO(hp), h = G.seq[hp - 1], r = op ? o.seq[op - 1] : '-';
+  const st = status(hp);
+  const hb = mH.selectedAtoms({ resi: hp, atom: 'CA' })[0], ob = mO && op ? mO.selectedAtoms({ resi: op, atom: 'CA' })[0] : null;
+  const feats = G.features.filter(f => hp >= f.start && hp <= f.end && f.type !== 'Chain').map(f => f.description || f.type);
+  const dis = G.disease.filter(d => d.pos === hp);
+  const pockets = E.drugs.filter(d => d.gene === gene && d.residues.includes(hp)).map(d => d.drug);
+  const ssName = s => ({ h: 'helix', s: 'sheet', c: 'coil' }[s] || '—');
+  $('#readout').innerHTML = `<b>Human ${esc(gene)} position ${hp}</b> <span class="tag ${st === 'same' ? 'strong' : st === 'sim' ? 'mid' : 'weak'}">${st === 'same' ? 'identical' : st === 'sim' ? 'similar' : st === 'gap' ? 'gap' : 'different'}</span>
+    <table><tr><th></th><th>Residue</th><th>Position</th><th>pLDDT</th><th>Structure</th></tr>
+    <tr><td>Human</td><td class="mono">${h} ${AA[h] || ''}</td><td>${hp}</td><td>${hb ? hb.b.toFixed(0) : '—'}</td><td>${ssName(ssH[hp])}</td></tr>
+    <tr><td>${esc(o.name)}</td><td class="mono">${r} ${AA[r] || ''}</td><td>${op || '—'}</td><td>${ob ? ob.b.toFixed(0) : '—'}</td><td>${op ? ssName(ssO[op]) : '—'}</td></tr></table>
+    ${feats.length ? `<div class="muted" style="margin-top:6px">${esc(feats.join('; '))}</div>` : ''}
+    ${pockets.length ? `<div style="margin-top:4px;color:var(--cyan)">Contacts ${esc(pockets.join(', '))}</div>` : ''}
+    ${dis.length ? `<div style="margin-top:4px">${dis.map(d => `<span style="color:var(--diff)">${esc(d.hgvs)}</span> ${link(d.url, 'ClinVar ' + d.id)}`).join('<br>')}</div>` : ''}`;
+  viewer.removeAllLabels();
+  viewer.addLabel(`${isHuman ? 'Human' : o.name} ${atom.resn}${atom.resi}`, { fontSize: 12, backgroundColor: '#13265a', backgroundOpacity: .9, fontColor: '#fff' }, { model: isHuman ? mH : mO, resi: atom.resi, atom: 'CA' });
+  viewer.render();
+}
+
+// ---------- sequence tracks ----------
+function trackUI() {
+  const G = E.genes[gene], o = org(), L = G.length, W = 1000, X = p => (p - 1) / L * W, w = W / L + .3;
+  const dis = new Set(G.disease.map(d => d.pos));
+  const rows = [
+    ['Same / different', p => { const s = status(p); return s === 'same' ? null : s === 'sim' ? C.sim : C.diff; }],
+    ['Human structure', p => ssColor(ssH[p])],
+    [`${o.name} structure`, p => { const op = hToO(p); return op ? ssColor(ssO[op]) : '#071026'; }],
+    ['Disease residues', p => dis.has(p) ? (status(p) === 'same' ? C.dis : '#ffffff') : null],
+    ['Domains', p => { const f = G.features.find(f => p >= f.start && p <= f.end && (f.type === 'Transmembrane' || f.type === 'Domain')); return f ? (f.type === 'Transmembrane' ? C.pocket : '#6b7fd0') : null; }]
+  ];
+  $('#track').innerHTML = rows.map(([label, fn]) => {
+    let rects = '';
+    for (let p = 1; p <= L; p++) { const c = fn(p); if (c) rects += `<rect x="${X(p).toFixed(1)}" y="2" width="${w.toFixed(2)}" height="14" fill="${c}"/>`; }
+    return `<div class="trackrow"><span class="muted">${esc(label)}</span><svg viewBox="0 0 ${W} 18" preserveAspectRatio="none" data-l="${L}"><rect x="0" y="2" width="${W}" height="14" fill="#13265a"/>${rects}</svg></div>`;
+  }).join('') + `<div class="trackrow"><span></span><div class="muted mono" style="display:flex;justify-content:space-between;font-size:.72rem"><span>1</span><span>${Math.round(L / 2)}</span><span>${L}</span></div></div>`;
+  const agree = Object.keys(o.map).filter(hp => ssH[hp] && ssO[o.map[hp]] && ssH[hp] === ssO[o.map[hp]]).length;
+  $('#track').insertAdjacentHTML('beforeend', `<p style="font-size:.84rem">Secondary structure agrees at <b>${(100 * agree / Object.keys(o.map).length).toFixed(1)}%</b> of aligned positions.</p>`);
+}
+$('#track').addEventListener('click', e => {
+  const svg = e.target.closest('svg[data-l]'); if (!svg || !viewer) return;
+  const r = svg.getBoundingClientRect(), hp = Math.max(1, Math.round((e.clientX - r.left) / r.width * +svg.dataset.l));
+  const a = mH.selectedAtoms({ resi: hp, atom: 'CA' })[0];
+  if (a) { pick(a); viewer.zoomTo({ model: mH, resi: hp }, 600); }
+});
+
+// ---------- tables ----------
+function drugUI() {
+  const ds = E.drugs.filter(d => d.gene === gene), o = org();
+  $('#drug').innerHTML = ds.map(d => `<option value="${d.pdb}">${esc(d.drug)} (${d.pdb})</option>`).join('');
+  if (!ds.find(d => d.pdb === drugId)) drugId = ds[0]?.pdb || null;
+  $('#drug').value = drugId || '';
+  $('#modes').querySelector('[data-m="pocket"]').style.display = ds.length ? '' : 'none';
+  if (!ds.length && mode === 'pocket') mode = 'identity';
+  $('#tDrug').innerHTML = ds.length ? `<thead><tr><th>Drug</th><th>Type</th><th>Structure</th><th class="n">Pocket</th><th>In ${esc(o.name)}</th></tr></thead><tbody>${ds.map(d => {
+    const r = (o.drugs || []).find(x => x.pdb === d.pdb);
+    return `<tr><td><b>${esc(d.drug)}</b></td><td class="muted">${esc(d.kind)}</td><td>${link('https://www.rcsb.org/structure/' + d.pdb, d.pdb)} <span class="muted">${esc(d.method)}${d.resolution ? ', ' + d.resolution + ' Å' : ''}</span></td><td class="n">${d.residues.length}</td>
+      <td>${r ? (r.same === r.total ? `<span class="tag strong">identical ${r.same}/${r.total}</span>` : `<span class="tag mid">${r.same}/${r.total}</span> <span class="mono">${esc(r.diffs.join(' '))}</span>`) : '—'}</td></tr>`;
+  }).join('')}</tbody>` : `<tbody><tr><td class="muted">No experimental human ${esc(gene)} structure with a bound drug is used here. PSEN2 drug complexes in the PDB do not resolve the drug.</td></tr></tbody>`;
+}
+function recordsUI() {
+  const G = E.genes[gene], o = org();
+  $('#records').innerHTML = `
+    <div>Human ${esc(gene)}: ${link('https://www.uniprot.org/uniprotkb/' + G.uniprot, 'UniProt ' + G.uniprot)} · ${link('https://www.ncbi.nlm.nih.gov/gene/' + G.gene_id, 'NCBI Gene ' + G.gene_id)} · ${link('https://alphafold.ebi.ac.uk/entry/' + G.uniprot, 'AlphaFold ' + G.alphafold)}</div>
+    <div>${esc(o.name)} <i>${esc(o.latin)}</i> ${esc(o.symbol)}: ${link('https://www.uniprot.org/uniprotkb/' + o.uniprot, 'UniProt ' + o.uniprot)}${o.gene_id ? ' · ' + link('https://www.ncbi.nlm.nih.gov/gene/' + o.gene_id, 'NCBI Gene ' + o.gene_id) : ''}${o.alphafold ? ' · ' + link('https://alphafold.ebi.ac.uk/entry/' + o.uniprot, 'AlphaFold ' + o.alphafold) : ''}</div>
+    <div class="muted">${esc(o.source)}${o.live ? ' (fetched live in your browser; not pre-checked)' : ''}. ${o.length} aa.</div>`;
+  const fasta = `>human_${gene}_${G.uniprot}\n${G.seq}\n>${o.name.replace(/\W+/g, '_')}_${o.symbol}_${o.uniprot}\n${o.seq}\n`;
+  $('#downloads').innerHTML = '';
+  const add = (label, content, name) => { const a = document.createElement('a'); a.className = 'btn'; a.textContent = label; a.download = name; a.href = URL.createObjectURL(new Blob([content], { type: 'text/plain' })); $('#downloads').append(a); };
+  add('Download sequences (FASTA)', fasta, `${gene}_human_vs_${o.name.replace(/\W+/g, '_')}.fasta`);
+  if (orgPdbText) add(`Download ${o.name} model superposed on human (PDB)`, orgPdbText, `${gene}_${o.name.replace(/\W+/g, '_')}_on_human.pdb`);
+}
+function rankUI() {
+  const G = E.genes[gene];
+  const rows = Object.entries(G.organisms).filter(([, o]) => !o.missing).map(([t, o]) => [t, o, verdict(o)]);
+  const order = { strong: 0, mid: 1, weak: 2, na: 3 };
+  rows.sort((a, b) => order[a[2].cls] - order[b[2].cls] || b[1].identity - a[1].identity);
+  $('#rankTitle').textContent = `All organisms ranked for human ${gene}`;
+  $('#tRank').innerHTML = `<thead><tr><th>Organism</th><th>Verdict</th><th class="n">Identity</th><th class="n">Disease residues kept</th><th class="n">${esc(G.core_label)}</th><th class="n">RMSD (Å)</th><th class="n">Drug pockets identical</th></tr></thead><tbody>${rows.map(([t, o, v]) =>
+    `<tr data-t="${t}" class="${!liveOrg && t === tax ? 'sel' : ''}"><td><b>${esc(o.name)}</b> <span class="muted"><i>${esc(o.latin)}</i> ${esc(o.symbol)}</span></td><td><span class="tag ${v.cls}">${v.title}</span></td><td class="n">${o.identity}%</td><td class="n">${o.disease_same}/${o.disease_total}</td><td class="n">${o.core_same}/${o.core_total}</td><td class="n">${o.superpose ? o.superpose.rmsd : '—'}</td><td class="n">${(o.drugs || []).length ? (o.drugs.filter(d => d.same === d.total).length + '/' + o.drugs.length) : '—'}</td></tr>`).join('')}
+    ${Object.values(G.organisms).filter(o => o.missing).map(o => `<tr><td><b>${esc(o.name)}</b></td><td colspan="6" class="muted">${esc(o.missing)}</td></tr>`).join('')}</tbody>`;
+  $('#rules').textContent = RULES;
+}
+$('#tRank').addEventListener('click', e => { const tr = e.target.closest('tr[data-t]'); if (tr) { tax = tr.dataset.t; liveOrg = null; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); } });
+
+async function render() {
+  $('#genes').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.g === gene));
+  const G = E.genes[gene];
+  if (!liveOrg && (!G.organisms[tax] || G.organisms[tax].missing)) tax = Object.keys(G.organisms).find(t => !G.organisms[t].missing);
+  buildInverse();
+  groupsUI(); verdictUI(); drugUI(); rankUI();
+  try { await loadModels(); } catch (err) { $('#loading').textContent = 'Could not load the 3D models: ' + err.message; }
+  trackUI(); recordsUI();
+}
+
+// ---------- any organism (live: NCBI ortholog list -> UniProt -> AlphaFold, computed in the browser) ----------
+// (filled in by explorer-live.js when present)
+render();
+</script>
+<script src="explorer-live.js"></script>
+</body>
+</html>
