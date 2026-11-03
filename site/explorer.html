@@ -347,7 +347,7 @@ function paint(zoom) {
       if (mode === 'pocket') pocket.forEach(hp => keyRes.add(isHuman ? hp : hToO(hp)));
       if (mode === 'disease') dis.forEach(hp => { if (status(hp) !== 'same') keyRes.add(isHuman ? hp : hToO(hp)); });
       const list = [...keyRes].filter(Boolean);
-      if (list.length) m.addStyle({ resi: list }, { stick: { colorfunc: cf, radius: 0.2 } });
+      if (list.length) m.setStyle({ resi: list }, { stick: { colorfunc: cf, radius: 0.2 } }, true);
     }
     if (style === 'surface') viewer.addSurface($3Dmol.SurfaceType.VDW, { colorfunc: cf, opacity: 0.85 }, { model: m });
   }
@@ -477,12 +477,15 @@ async function render() {
   if (!liveOrg && (!G.organisms[tax] || G.organisms[tax].missing)) tax = Object.keys(G.organisms).find(t => !G.organisms[t].missing);
   buildInverse();
   groupsUI(); verdictUI(); drugUI(); rankUI();
-  try { await loadModels(); } catch (err) { $('#loading').textContent = 'Could not load the 3D models: ' + err.message; }
+  try { await loadModels(); } catch (err) { console.error(err); $('#loading').style.display = 'grid'; $('#loading').textContent = 'Could not load the 3D models: ' + err.message; }
   trackUI(); recordsUI();
 }
 
 // ---------- any organism (live: NCBI ortholog list -> UniProt -> AlphaFold, computed in the browser) ----------
 // (filled in by explorer-live.js when present)
+// deep link: #GENE-TAXID[-mode][-PDBID], e.g. #PSEN1-10090-pocket-7Y5T
+const hm = location.hash.match(/^#(APP|PSEN1|PSEN2)-(\d+)(?:-(identity|plddt|ss|disease|pocket))?(?:-(\w{4}))?$/);
+if (hm) { gene = hm[1]; tax = hm[2]; mode = hm[3] || mode; drugId = hm[4] || null; }
 render();
 </script>
 <script src="explorer-live.js"></script>
